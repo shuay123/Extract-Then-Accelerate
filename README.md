@@ -1,6 +1,6 @@
 # Extract-Then-Accelerate
 
-This repository contains the code, trained model artifacts, and experiment outputs for the 2025 IISE submission.
+This repository contains the code, trained model artifacts, and experiment outputs for the 2026 IISE submission.
 
 ## Repository layout
 
