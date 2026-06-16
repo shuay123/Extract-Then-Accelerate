@@ -1,0 +1,18 @@
+# JCompany_W25_J50_5000.yaml
+
+# data_dir: "C:\\code\\datasets\\Seru_datasets\\JCompany\\large\\processed\\SeruConfigs_W15_J50_5000_V0.pt"
+n_nodes: 25
+n_batch: 150
+m: 1
+n: 150
+SizeofDataset: 5000
+test_size: 0.2
+batch_size: 32
+hidden_dim: 128
+n_gcn_layers: 4
+temperature: 0.07
+use_contrastive: true
+n_epochs: 200
+lr: 0.001
+best_model_path_config : 'models_trained\seruconfig_W15_J150_f1.pt'
+best_model_path_schedule : 'models_trained\seruschedule_W25_J100_f1.pt'

@@ -1,0 +1,18 @@
+# config_ccea.yaml
+
+max_runtime: 100  # 最大运行时间（单位：秒）
+max_iteration: 30  # 最大迭代次数
+population_size: 50  # 种群大小
+tournament_size: 2  # 锦标赛选择的大小
+crossover_rate: 0.2  # 交叉概率
+mutation_rate: 0.2  # 变异概率
+m_t: 20  # 邻域解数量
+
+# 二选一：显式指定个数 或 指定比例（推荐比例）
+hotstart_H: 100          # 固定 H=100
+hotstart_frac: 0.2     # 或者用 20% population_size
+
+hotstart_H_cap: 100       # 上限（默认我设了 100）
+hotstart_perturb_steps: 3 # 每个热启动个体扰动强度（越大越“散”）
+conflict_eps: 0.2
+community_beta : 0.2

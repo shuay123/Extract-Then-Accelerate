@@ -1,0 +1,18 @@
+# JCompany_W6_J6_5000.yaml
+
+data_dir: "C:\\code\\datasets\\Seru_datasets\\JCompany\\processed\\SeruConfigs_W6_J12_5000_V0.pt"
+n_nodes: 6
+n_batch: 12
+m: 1
+n: 48
+SizeofDataset: 5000
+test_size: 0.2
+batch_size: 1
+hidden_dim: 128
+n_gcn_layers: 4
+temperature: 0.07
+use_contrastive: true
+n_epochs: 200
+lr: 0.001
+best_model_path : 'models_trained\seruconfig_W6_J12_pre.pt'
+best_model_path_schedule : 'models_trained\seruschedule_W7_J8_f1.pt'

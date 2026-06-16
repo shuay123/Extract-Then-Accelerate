@@ -1,0 +1,55 @@
+{
+  "metrics": {
+    "val_r2": 0.8808174401504293,
+    "val_mae": 0.07665773369443453,
+    "val_spearman": 0.9193010644125209,
+    "test_r2": 0.881747364844516,
+    "test_mae": 0.07629973041853949,
+    "test_spearman": 0.9191116663331351
+  },
+  "metadata": {
+    "yaml_path": "JCompany_W8_J8_5000_schedule.yaml",
+    "ckpt_path": "models_trained/seruschedule_W8_J8_pre.pt",
+    "out_dir": ".\\xai_batch_edge_out_v1\\JCompany_W8_J8_5000_schedule",
+    "feature_cols": [
+      "f1_sim",
+      "f2_comp",
+      "f3_overlap",
+      "f4_gap",
+      "f5_ctx_i_mean",
+      "f6_ctx_j_mean",
+      "f7_ctx_i_std",
+      "f8_ctx_j_std",
+      "f9_pair_excl",
+      "f10_mutual_rank",
+      "f11_emb_norm",
+      "f12_emb_mean",
+      "f13_emb_std"
+    ],
+    "interpretable_cols": [
+      "f1_sim",
+      "f2_comp",
+      "f3_overlap",
+      "f4_gap",
+      "f5_ctx_i_mean",
+      "f6_ctx_j_mean",
+      "f7_ctx_i_std",
+      "f8_ctx_j_std",
+      "f9_pair_excl",
+      "f10_mutual_rank"
+    ],
+    "latent_cols": [
+      "f11_emb_norm",
+      "f12_emb_mean",
+      "f13_emb_std"
+    ],
+    "raw_initial_edge_features_used_for_f1_f4": true,
+    "raw_edge_feature_fallback_to_recomputed": false,
+    "notes": [
+      "Nodes are treated as batches in the scheduling-side graph.",
+      "label=1 means the two batches belong to the same seru in the ground-truth solution.",
+      "score_sym is the GNN predicted symmetric edge score.",
+      "f1-f4 are taken from raw initial edge features returned by model.forward(return_explain=True) when available."
+    ]
+  }
+}

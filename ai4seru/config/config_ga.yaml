@@ -1,0 +1,13 @@
+# config_ga.yaml
+# 纯seru生产则为pure，混合生产则为hybrid
+
+max_runtime: 20  # 最大运行时间（单位：秒）
+max_iteration: 30  # 最大迭代次数
+n_islands : 8
+population_size: 80  # 种群大小
+tournament_size: 2  # 锦标赛选择的大小
+crossover_rate: 0.5  # 交叉概率
+mutation_rate: 0.5  # 变异概率
+m_t: 10  # 邻域解数量
+archive_size: 5
+formation_code: [ 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]

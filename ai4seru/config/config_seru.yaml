@@ -1,0 +1,51 @@
+# config_seru.yaml
+# 实例参数
+num_of_workers: 25
+num_of_batches: 300
+max_num_of_batches: 500
+
+num_of_batch_types: 5
+R: 0.4
+# 分散程度
+T: 0.5
+# 截止时间的紧迫程度
+
+
+# 是否计算延迟
+is_tardiness: True
+
+# Excel表名配置
+
+
+# 多能工系数
+max_num_of_multiple_task: 10
+# 换装时间
+setup_time: 20
+
+# 路径
+#seru_data_path: "data/seru_data/pure_seru_data_yu_2014_jd.xlsx"
+#due_dates_path: "data/due_date/due_dates_b{num_batches}_w{num_workers}_R{R}_T{T}.xlsx"
+#batch_types_path: "data/batch_type/batch_types_{num_of_batch_types}.xlsx"
+
+# 企业数据
+#seru_data_path: "data/seru_data/pure_seru_data_yu_2014_jd.xlsx"
+#due_dates_path: "data/due_date/due_dates_b{num_batches}_w{num_workers}_R{R}_T{T}.xlsx"
+#batch_types_path: "data/batch_type/batch_types_{num_of_batch_types}.xlsx"
+#sheet_batch_to_product: "批次与产品类型关系_京东"
+#sheet_worker_to_product: "工人与产品类型熟练程度_京东"
+#sheet_worker_to_multiple_task: "多能工系数"
+#sheet_batch_due_dates: "均匀分布生成的截止时间"
+
+# 标准数据
+seru_data_path: "data/seru_data/pure_seru_data_yu_2014_extend.xlsx"
+due_dates_path: "data/due_date/due_dates_b{num_batches}_w{num_workers}_R{R}_T{T}_standard.xlsx"
+#due_dates_path: "data/seru_data/pure_seru_data_yu_2014_extend.xlsx"
+# batch_types_path: "data/seru_data/pure_seru_data_yu_2014_jd.xlsx"
+batch_types_path: "data/seru_data/pure_seru_data_yu_2014_extend.xlsx"
+sheet_batch_to_product: "批次与产品类型关系"
+sheet_worker_to_product: "工人与产品类型熟练程度_京东"
+sheet_worker_to_multiple_task: "多能工系数"
+sheet_batch_due_dates: "均匀分布生成的截止时间"
+
+use_standard_logic: True  # True: 标准数据逻辑（有batch_size和TASK_TIME）, False: 企业数据逻辑（无batch_size和TASK_TIME）
+task_time: 1  # 仅在标准逻辑中使用的任务时间常量（根据SeruConfig.TASK_TIME设置）

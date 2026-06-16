@@ -1,0 +1,15 @@
+# JCompany_W7.yaml
+
+data_dir: "C:\\code\\datasets\\Seru_datasets\\processed\\randomT50-60_W7_WAll_Exemples_2000\\processed\\data_randomT50-60_W7_WAll_Exemples_2000.pt"
+n_nodes: 7
+m: 1
+n: 35
+SizeofDataset: 5000
+test_size: 0.2
+batch_size: 32
+hidden_dim: 128
+n_gcn_layers: 4
+temperature: 0.07
+use_contrastive: true
+n_epochs: 200
+lr: 0.001

@@ -1,0 +1,16 @@
+# JCompany_W15_J50_5000.yaml
+
+data_dir: "C:\\code\\datasets\\Seru_datasets\\JCompany\\large\\processed\\SeruConfigs_W15_J100_5000_V0.pt"
+n_nodes: 15
+n_batch: 100
+m: 1
+n: 100
+SizeofDataset: 5000
+test_size: 0.2
+batch_size: 32
+hidden_dim: 128
+n_gcn_layers: 4
+temperature: 0.07
+use_contrastive: true
+n_epochs: 200
+lr: 0.001

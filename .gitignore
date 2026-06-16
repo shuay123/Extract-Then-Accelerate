@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Java / Maven
+target/
+*.class
+build/
+
+# IDE and local editor state
+.idea/
+.vscode/
+.trae/
+*.iml
+*.iws
+*.ipr
+
+# OS and temporary files
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+*.bak
+*~
+~$*

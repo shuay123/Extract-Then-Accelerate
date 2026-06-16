@@ -1,0 +1,472 @@
+
+开始训练...
+================================================================================
+Epoch 1:   0%|                                                                                                                                                                                                            | 0/125 [00:00<?, ?it/s]✓ 边类别权重（无向边）: 类0=0.542, 类1=6.412
+✓ 边数量: 105 (上三角无向边)
+
+Epoch 2/200
+  Train - Total: 1.3585, Edge: 0.6232, Contrast: 0.7427
+  Val   - Acc: 0.5737, Prec: 0.9623, Rec: 0.5251, F1: 0.6795
+  ✓ 保存最佳模型 (Prec: 0.9623)
+  ✓ 保存最佳模型 (F1: 0.6795)
+                                                                                                                                                                                                                                                   
+Epoch 4/200
+  Train - Total: 1.3352, Edge: 0.6178, Contrast: 0.7396
+  Val   - Acc: 0.5950, Prec: 0.9604, Rec: 0.5521, F1: 0.7011
+  ✓ 保存最佳模型 (F1: 0.7011)
+                                                                                                                                                                                                                                                   
+Epoch 6/200
+  Train - Total: 1.3129, Edge: 0.6133, Contrast: 0.7364
+  Val   - Acc: 0.5821, Prec: 0.9616, Rec: 0.5357, F1: 0.6880
+                                                                                                                                                                                                                                                   
+Epoch 8/200
+  Train - Total: 1.2925, Edge: 0.6104, Contrast: 0.7334
+  Val   - Acc: 0.5753, Prec: 0.9613, Rec: 0.5277, F1: 0.6813
+                                                                                                                                                                                                                                                   
+Epoch 10/200
+  Train - Total: 1.2686, Edge: 0.6049, Contrast: 0.7293
+  Val   - Acc: 0.5776, Prec: 0.9597, Rec: 0.5314, F1: 0.6841
+                                                                                                                                                                                                                                                   
+Epoch 12/200
+  Train - Total: 1.2488, Edge: 0.6009, Contrast: 0.7280
+  Val   - Acc: 0.5836, Prec: 0.9577, Rec: 0.5399, F1: 0.6905
+                                                                                                                                                                                                                                                   
+Epoch 14/200
+  Train - Total: 1.2204, Edge: 0.5923, Contrast: 0.7219
+  Val   - Acc: 0.5927, Prec: 0.9570, Rec: 0.5514, F1: 0.6997
+                                                                                                                                                                                                                                                   
+Epoch 16/200
+  Train - Total: 1.1934, Edge: 0.5851, Contrast: 0.7156
+  Val   - Acc: 0.6022, Prec: 0.9557, Rec: 0.5637, F1: 0.7092
+  ✓ 保存最佳模型 (F1: 0.7092)
+                                                                                                                                                                                                                                                   
+Epoch 18/200
+  Train - Total: 1.1666, Edge: 0.5768, Contrast: 0.7106
+  Val   - Acc: 0.5655, Prec: 0.9566, Rec: 0.5185, F1: 0.6725
+                                                                                                                                                                                                                                                   
+Epoch 20/200
+  Train - Total: 1.1339, Edge: 0.5662, Contrast: 0.7009
+  Val   - Acc: 0.5992, Prec: 0.9545, Rec: 0.5609, F1: 0.7066
+                                                                                                                                                                                                                                                   
+Epoch 22/200
+  Train - Total: 1.0971, Edge: 0.5499, Contrast: 0.6927
+  Val   - Acc: 0.6086, Prec: 0.9521, Rec: 0.5740, F1: 0.7162
+  ✓ 保存最佳模型 (F1: 0.7162)
+                                                                                                                                                                                                                                                   
+Epoch 24/200
+  Train - Total: 1.0680, Edge: 0.5377, Contrast: 0.6887
+  Val   - Acc: 0.6267, Prec: 0.9495, Rec: 0.5979, F1: 0.7338
+  ✓ 保存最佳模型 (F1: 0.7338)
+                                                                                                                                                                                                                                                   
+Epoch 26/200
+  Train - Total: 1.0419, Edge: 0.5250, Contrast: 0.6892
+  Val   - Acc: 0.6043, Prec: 0.9498, Rec: 0.5703, F1: 0.7127
+                                                                                                                                                                                                                                                   
+Epoch 28/200
+  Train - Total: 0.9863, Edge: 0.5022, Contrast: 0.6631
+  Val   - Acc: 0.6509, Prec: 0.9470, Rec: 0.6296, F1: 0.7563
+  ✓ 保存最佳模型 (F1: 0.7563)
+                                                                                                                                                                                                                                                   
+Epoch 30/200
+  Train - Total: 0.9575, Edge: 0.4886, Contrast: 0.6604
+  Val   - Acc: 0.6627, Prec: 0.9445, Rec: 0.6460, F1: 0.7672
+  ✓ 保存最佳模型 (F1: 0.7672)
+                                                                                                                                                                                                                                                   
+Epoch 32/200
+  Train - Total: 0.9135, Edge: 0.4684, Contrast: 0.6451
+  Val   - Acc: 0.6673, Prec: 0.9410, Rec: 0.6544, F1: 0.7720
+  ✓ 保存最佳模型 (F1: 0.7720)
+
+Epoch 34/200
+  Train - Total: 0.8784, Edge: 0.4532, Contrast: 0.6346
+  Val   - Acc: 0.7095, Prec: 0.9388, Rec: 0.7086, F1: 0.8076
+  ✓ 保存最佳模型 (F1: 0.8076)
+
+Epoch 36/200
+  Train - Total: 0.8641, Edge: 0.4502, Contrast: 0.6368
+  Val   - Acc: 0.7101, Prec: 0.9380, Rec: 0.7101, F1: 0.8083
+  ✓ 保存最佳模型 (F1: 0.8083)
+                                                                                                                                                                                                                                                   
+Epoch 38/200
+  Train - Total: 0.8281, Edge: 0.4303, Contrast: 0.6315
+  Val   - Acc: 0.7082, Prec: 0.9390, Rec: 0.7068, F1: 0.8065
+                                                                                                                                                                                                                                                   
+Epoch 40/200
+  Train - Total: 0.7651, Edge: 0.4012, Contrast: 0.5965
+  Val   - Acc: 0.7029, Prec: 0.9383, Rec: 0.7007, F1: 0.8023
+                                                                                                                                                                                                                                                   
+Epoch 42/200
+  Train - Total: 0.7386, Edge: 0.3962, Contrast: 0.5803
+  Val   - Acc: 0.7421, Prec: 0.9352, Rec: 0.7523, F1: 0.8339
+  ✓ 保存最佳模型 (F1: 0.8339)
+                                                                                                                                                                                                                                                   
+Epoch 44/200
+  Train - Total: 0.7221, Edge: 0.3840, Contrast: 0.5932
+  Val   - Acc: 0.7381, Prec: 0.9370, Rec: 0.7457, F1: 0.8305
+                                                                                                                                                                                                                                                   
+Epoch 46/200
+  Train - Total: 0.6738, Edge: 0.3649, Contrast: 0.5616
+  Val   - Acc: 0.7416, Prec: 0.9359, Rec: 0.7511, F1: 0.8334
+                                                                                                                                                                                                                                                   
+Epoch 48/200
+  Train - Total: 0.6587, Edge: 0.3501, Contrast: 0.5822
+  Val   - Acc: 0.7513, Prec: 0.9362, Rec: 0.7629, F1: 0.8407
+  ✓ 保存最佳模型 (F1: 0.8407)
+                                                                                                                                                                                                                                                   
+Epoch 50/200
+  Train - Total: 0.6366, Edge: 0.3480, Contrast: 0.5658
+  Val   - Acc: 0.7656, Prec: 0.9339, Rec: 0.7829, F1: 0.8518
+  ✓ 保存最佳模型 (F1: 0.8518)
+                                                                                                                                                                                                                                                   
+Epoch 52/200
+  Train - Total: 0.6102, Edge: 0.3385, Contrast: 0.5546
+  Val   - Acc: 0.7638, Prec: 0.9333, Rec: 0.7813, F1: 0.8506
+                                                                                                                                                                                                                                                   
+Epoch 54/200
+  Train - Total: 0.6038, Edge: 0.3433, Contrast: 0.5542
+  Val   - Acc: 0.7764, Prec: 0.9331, Rec: 0.7973, F1: 0.8599
+  ✓ 保存最佳模型 (F1: 0.8599)
+                                                                                                                                                                                                                                                   
+Epoch 56/200
+  Train - Total: 0.5835, Edge: 0.3297, Contrast: 0.5639
+  Val   - Acc: 0.7920, Prec: 0.9320, Rec: 0.8179, F1: 0.8713
+  ✓ 保存最佳模型 (F1: 0.8713)
+
+Epoch 58/200
+  Train - Total: 0.5619, Edge: 0.3218, Contrast: 0.5583
+  Val   - Acc: 0.7936, Prec: 0.9313, Rec: 0.8207, F1: 0.8725
+  ✓ 保存最佳模型 (F1: 0.8725)
+                                                                                                                                                                                                                                                   
+Epoch 60/200
+  Train - Total: 0.5146, Edge: 0.2997, Contrast: 0.5241
+  Val   - Acc: 0.7910, Prec: 0.9313, Rec: 0.8174, F1: 0.8706
+                                                                                                                                                                                                                                                   
+Epoch 62/200
+  Train - Total: 0.5128, Edge: 0.3063, Contrast: 0.5295
+  Val   - Acc: 0.7930, Prec: 0.9298, Rec: 0.8215, F1: 0.8723
+                                                                                                                                                                                                                                                   
+Epoch 64/200
+  Train - Total: 0.4611, Edge: 0.2720, Contrast: 0.5111
+  Val   - Acc: 0.7955, Prec: 0.9306, Rec: 0.8237, F1: 0.8739
+  ✓ 保存最佳模型 (F1: 0.8739)
+
+Epoch 66/200
+  Train - Total: 0.4402, Edge: 0.2659, Contrast: 0.4981
+  Val   - Acc: 0.7969, Prec: 0.9312, Rec: 0.8249, F1: 0.8748
+  ✓ 保存最佳模型 (F1: 0.8748)
+                                                                                                                                                                                                                                                   
+Epoch 68/200
+  Train - Total: 0.4464, Edge: 0.2718, Contrast: 0.5292
+  Val   - Acc: 0.8016, Prec: 0.9306, Rec: 0.8315, F1: 0.8782
+  ✓ 保存最佳模型 (F1: 0.8782)
+
+Epoch 70/200
+  Train - Total: 0.4117, Edge: 0.2581, Contrast: 0.4955
+  Val   - Acc: 0.8013, Prec: 0.9307, Rec: 0.8309, F1: 0.8780
+                                                                                                                                                                                                                                                   
+Epoch 72/200
+  Train - Total: 0.4041, Edge: 0.2577, Contrast: 0.4880
+  Val   - Acc: 0.8102, Prec: 0.9294, Rec: 0.8435, F1: 0.8844
+  ✓ 保存最佳模型 (F1: 0.8844)
+
+Epoch 74/200
+  Train - Total: 0.4001, Edge: 0.2479, Contrast: 0.5071
+  Val   - Acc: 0.8154, Prec: 0.9288, Rec: 0.8507, F1: 0.8880
+  ✓ 保存最佳模型 (F1: 0.8880)
+                                                                                                                                                                                                                                                   
+Epoch 76/200
+  Train - Total: 0.3845, Edge: 0.2360, Contrast: 0.4953
+  Val   - Acc: 0.8118, Prec: 0.9293, Rec: 0.8456, F1: 0.8855
+                                                                                                                                                                                                                                                   
+Epoch 78/200
+  Train - Total: 0.3657, Edge: 0.2256, Contrast: 0.4669
+  Val   - Acc: 0.8118, Prec: 0.9299, Rec: 0.8449, F1: 0.8854
+                                                                                                                                                                                                                                                   
+Epoch 80/200
+  Train - Total: 0.3463, Edge: 0.2095, Contrast: 0.4560
+  Val   - Acc: 0.8249, Prec: 0.9287, Rec: 0.8627, F1: 0.8945
+  ✓ 保存最佳模型 (F1: 0.8945)
+                                                                                                                                                                                                                                                   
+Epoch 82/200
+  Train - Total: 0.3721, Edge: 0.2258, Contrast: 0.4877
+  Val   - Acc: 0.8206, Prec: 0.9285, Rec: 0.8576, F1: 0.8916
+                                                                                                                                                                                                                                                   
+Epoch 84/200
+  Train - Total: 0.3420, Edge: 0.2065, Contrast: 0.4514
+  Val   - Acc: 0.8214, Prec: 0.9285, Rec: 0.8586, F1: 0.8922
+                                                                                                                                                                                                                                                   
+Epoch 86/200
+  Train - Total: 0.3695, Edge: 0.2244, Contrast: 0.4838
+  Val   - Acc: 0.8257, Prec: 0.9283, Rec: 0.8642, F1: 0.8951
+  ✓ 保存最佳模型 (F1: 0.8951)
+                                                                                                                                                                                                                                                   
+Epoch 88/200
+  Train - Total: 0.3235, Edge: 0.1900, Contrast: 0.4449
+  Val   - Acc: 0.8309, Prec: 0.9282, Rec: 0.8709, F1: 0.8986
+  ✓ 保存最佳模型 (F1: 0.8986)
+                                                                                                                                                                                                                                                   
+Epoch 90/200
+  Train - Total: 0.3322, Edge: 0.1967, Contrast: 0.4517
+  Val   - Acc: 0.8339, Prec: 0.9277, Rec: 0.8752, F1: 0.9007
+  ✓ 保存最佳模型 (F1: 0.9007)
+                                                                                                                                                                                                                                                   
+Epoch 92/200
+  Train - Total: 0.3459, Edge: 0.2035, Contrast: 0.4748
+  Val   - Acc: 0.8377, Prec: 0.9276, Rec: 0.8801, F1: 0.9032
+  ✓ 保存最佳模型 (F1: 0.9032)
+
+Epoch 94/200
+  Train - Total: 0.3205, Edge: 0.1893, Contrast: 0.4375
+  Val   - Acc: 0.8401, Prec: 0.9276, Rec: 0.8831, F1: 0.9048
+  ✓ 保存最佳模型 (F1: 0.9048)
+                                                                                                                                                                                                                                                   
+Epoch 96/200
+  Train - Total: 0.3064, Edge: 0.1721, Contrast: 0.4479
+  Val   - Acc: 0.8482, Prec: 0.9277, Rec: 0.8932, F1: 0.9101
+  ✓ 保存最佳模型 (F1: 0.9101)
+
+Epoch 98/200
+  Train - Total: 0.2935, Edge: 0.1680, Contrast: 0.4183
+  Val   - Acc: 0.8439, Prec: 0.9267, Rec: 0.8889, F1: 0.9074
+                                                                                                                                                                                                                                                   
+Epoch 100/200
+  Train - Total: 0.3189, Edge: 0.1847, Contrast: 0.4471
+  Val   - Acc: 0.8486, Prec: 0.9266, Rec: 0.8949, F1: 0.9105
+  ✓ 保存最佳模型 (F1: 0.9105)
+                                                                                                                                                                                                                                                   
+Epoch 102/200
+  Train - Total: 0.3068, Edge: 0.1812, Contrast: 0.4187
+  Val   - Acc: 0.8516, Prec: 0.9260, Rec: 0.8995, F1: 0.9125
+  ✓ 保存最佳模型 (F1: 0.9125)
+
+Epoch 104/200
+  Train - Total: 0.3129, Edge: 0.1787, Contrast: 0.4473
+  Val   - Acc: 0.8533, Prec: 0.9264, Rec: 0.9011, F1: 0.9136
+  ✓ 保存最佳模型 (F1: 0.9136)
+                                                                                                                                                                                                                                                   
+Epoch 106/200
+  Train - Total: 0.3005, Edge: 0.1736, Contrast: 0.4231
+  Val   - Acc: 0.8524, Prec: 0.9268, Rec: 0.8995, F1: 0.9130
+                                                                                                                                                                                                                                                   
+Epoch 108/200
+  Train - Total: 0.2804, Edge: 0.1590, Contrast: 0.4049
+  Val   - Acc: 0.8502, Prec: 0.9269, Rec: 0.8966, F1: 0.9115
+                                                                                                                                                                                                                                                   
+Epoch 110/200
+  Train - Total: 0.2802, Edge: 0.1553, Contrast: 0.4162
+  Val   - Acc: 0.8487, Prec: 0.9269, Rec: 0.8948, F1: 0.9105
+                                                                                                                                                                                                                                                   
+Epoch 112/200
+  Train - Total: 0.2768, Edge: 0.1490, Contrast: 0.4262
+  Val   - Acc: 0.8572, Prec: 0.9265, Rec: 0.9059, F1: 0.9161
+  ✓ 保存最佳模型 (F1: 0.9161)
+
+Epoch 114/200
+  Train - Total: 0.2794, Edge: 0.1532, Contrast: 0.4208
+  Val   - Acc: 0.8620, Prec: 0.9262, Rec: 0.9123, F1: 0.9192
+  ✓ 保存最佳模型 (F1: 0.9192)
+                                                                                                                                                                                                                                                   
+Epoch 116/200
+  Train - Total: 0.2571, Edge: 0.1367, Contrast: 0.4011
+  Val   - Acc: 0.8595, Prec: 0.9262, Rec: 0.9092, F1: 0.9176
+                                                                                                                                                                                                                                                   
+Epoch 118/200
+  Train - Total: 0.2739, Edge: 0.1530, Contrast: 0.4031
+  Val   - Acc: 0.8619, Prec: 0.9259, Rec: 0.9126, F1: 0.9192
+  ✓ 保存最佳模型 (F1: 0.9192)
+                                                                                                                                                                                                                                                   
+Epoch 120/200
+  Train - Total: 0.2640, Edge: 0.1396, Contrast: 0.4148
+  Val   - Acc: 0.8593, Prec: 0.9261, Rec: 0.9090, F1: 0.9175
+                                                                                                                                                                                                                                                   
+Epoch 122/200
+  Train - Total: 0.2762, Edge: 0.1491, Contrast: 0.4234
+  Val   - Acc: 0.8647, Prec: 0.9258, Rec: 0.9162, F1: 0.9210
+  ✓ 保存最佳模型 (F1: 0.9210)
+                                                                                                                                                                                                                                                   
+Epoch 124/200
+  Train - Total: 0.2567, Edge: 0.1318, Contrast: 0.4165
+  Val   - Acc: 0.8585, Prec: 0.9266, Rec: 0.9075, F1: 0.9169
+                                                                                                                                                                                                                                                   
+Epoch 126/200
+  Train - Total: 0.2545, Edge: 0.1350, Contrast: 0.3982
+  Val   - Acc: 0.8634, Prec: 0.9262, Rec: 0.9141, F1: 0.9201
+                                                                                                                                                                                                                                                   
+Epoch 128/200
+  Train - Total: 0.2303, Edge: 0.1157, Contrast: 0.3819
+  Val   - Acc: 0.8672, Prec: 0.9259, Rec: 0.9192, F1: 0.9226
+  ✓ 保存最佳模型 (F1: 0.9226)
+                                                                                                                                                                                                                                                   
+Epoch 130/200
+  Train - Total: 0.2462, Edge: 0.1263, Contrast: 0.3998
+  Val   - Acc: 0.8663, Prec: 0.9259, Rec: 0.9181, F1: 0.9220
+                                                                                                                                                                                                                                                   
+Epoch 132/200
+  Train - Total: 0.2420, Edge: 0.1279, Contrast: 0.3803
+  Val   - Acc: 0.8670, Prec: 0.9258, Rec: 0.9191, F1: 0.9224
+                                                                                                                                                                                                                                                   
+Epoch 134/200
+  Train - Total: 0.2311, Edge: 0.1151, Contrast: 0.3865
+  Val   - Acc: 0.8678, Prec: 0.9257, Rec: 0.9202, F1: 0.9229
+  ✓ 保存最佳模型 (F1: 0.9229)
+
+Epoch 136/200
+  Train - Total: 0.2680, Edge: 0.1487, Contrast: 0.3975
+  Val   - Acc: 0.8630, Prec: 0.9258, Rec: 0.9140, F1: 0.9199
+                                                                                                                                                                                                                                                   
+Epoch 138/200
+  Train - Total: 0.2339, Edge: 0.1210, Contrast: 0.3764
+  Val   - Acc: 0.8631, Prec: 0.9260, Rec: 0.9139, F1: 0.9199
+                                                                                                                                                                                                                                                   
+Epoch 140/200
+  Train - Total: 0.2366, Edge: 0.1200, Contrast: 0.3887
+  Val   - Acc: 0.8676, Prec: 0.9258, Rec: 0.9199, F1: 0.9228
+                                                                                                                                                                                                                                                   
+Epoch 142/200
+  Train - Total: 0.2475, Edge: 0.1298, Contrast: 0.3926
+  Val   - Acc: 0.8688, Prec: 0.9256, Rec: 0.9216, F1: 0.9236
+  ✓ 保存最佳模型 (F1: 0.9236)
+
+Epoch 144/200
+  Train - Total: 0.2143, Edge: 0.1086, Contrast: 0.3526
+  Val   - Acc: 0.8692, Prec: 0.9256, Rec: 0.9222, F1: 0.9239
+  ✓ 保存最佳模型 (F1: 0.9239)
+                                                                                                                                                                                                                                                   
+Epoch 146/200
+  Train - Total: 0.2338, Edge: 0.1213, Contrast: 0.3749
+  Val   - Acc: 0.8700, Prec: 0.9254, Rec: 0.9233, F1: 0.9244
+  ✓ 保存最佳模型 (F1: 0.9244)
+                                                                                                                                                                                                                                                   
+Epoch 148/200
+  Train - Total: 0.2296, Edge: 0.1122, Contrast: 0.3912
+  Val   - Acc: 0.8712, Prec: 0.9256, Rec: 0.9246, F1: 0.9251
+  ✓ 保存最佳模型 (F1: 0.9251)
+                                                                                                                                                                                                                                                   
+Epoch 150/200
+  Train - Total: 0.2220, Edge: 0.1085, Contrast: 0.3784
+  Val   - Acc: 0.8683, Prec: 0.9253, Rec: 0.9214, F1: 0.9233
+                                                                                                                                                                                                                                                   
+Epoch 152/200
+  Train - Total: 0.2346, Edge: 0.1180, Contrast: 0.3887
+  Val   - Acc: 0.8698, Prec: 0.9255, Rec: 0.9230, F1: 0.9242
+                                                                                                                                                                                                                                                   
+Epoch 154/200
+  Train - Total: 0.2266, Edge: 0.1115, Contrast: 0.3835
+  Val   - Acc: 0.8713, Prec: 0.9251, Rec: 0.9254, F1: 0.9253
+  ✓ 保存最佳模型 (F1: 0.9253)
+
+Epoch 156/200
+  Train - Total: 0.2231, Edge: 0.1082, Contrast: 0.3831
+  Val   - Acc: 0.8712, Prec: 0.9252, Rec: 0.9251, F1: 0.9251
+                                                                                                                                                                                                                                                   
+Epoch 158/200
+  Train - Total: 0.2102, Edge: 0.1000, Contrast: 0.3673
+  Val   - Acc: 0.8735, Prec: 0.9250, Rec: 0.9283, F1: 0.9266
+  ✓ 保存最佳模型 (F1: 0.9266)
+                                                                                                                                                                                                                                                   
+Epoch 160/200
+  Train - Total: 0.2321, Edge: 0.1173, Contrast: 0.3826
+  Val   - Acc: 0.8720, Prec: 0.9250, Rec: 0.9263, F1: 0.9257
+                                                                                                                                                                                                                                                   
+Epoch 162/200
+  Train - Total: 0.2279, Edge: 0.1133, Contrast: 0.3821
+  Val   - Acc: 0.8738, Prec: 0.9251, Rec: 0.9285, F1: 0.9268
+  ✓ 保存最佳模型 (F1: 0.9268)
+                                                                                                                                                                                                                                                   
+Epoch 164/200
+  Train - Total: 0.2170, Edge: 0.1098, Contrast: 0.3573
+  Val   - Acc: 0.8727, Prec: 0.9251, Rec: 0.9271, F1: 0.9261
+                                                                                                                                                                                                                                                   
+Epoch 166/200
+  Train - Total: 0.1921, Edge: 0.0861, Contrast: 0.3533
+  Val   - Acc: 0.8708, Prec: 0.9251, Rec: 0.9247, F1: 0.9249
+                                                                                                                                                                                                                                                   
+Epoch 168/200
+  Train - Total: 0.2285, Edge: 0.1111, Contrast: 0.3913
+  Val   - Acc: 0.8752, Prec: 0.9250, Rec: 0.9305, F1: 0.9277
+  ✓ 保存最佳模型 (F1: 0.9277)
+                                                                                                                                                                                                                                                   
+Epoch 170/200
+  Train - Total: 0.1966, Edge: 0.0876, Contrast: 0.3636
+  Val   - Acc: 0.8707, Prec: 0.9254, Rec: 0.9242, F1: 0.9248
+                                                                                                                                                                                                                                                   
+Epoch 172/200
+  Train - Total: 0.2213, Edge: 0.1077, Contrast: 0.3788
+  Val   - Acc: 0.8742, Prec: 0.9251, Rec: 0.9290, F1: 0.9270
+                                                                                                                                                                                                                                                   
+Epoch 174/200
+  Train - Total: 0.2118, Edge: 0.0982, Contrast: 0.3786
+  Val   - Acc: 0.8710, Prec: 0.9253, Rec: 0.9248, F1: 0.9250
+                                                                                                                                                                                                                                                   
+Epoch 176/200
+  Train - Total: 0.1893, Edge: 0.0863, Contrast: 0.3434
+  Val   - Acc: 0.8749, Prec: 0.9251, Rec: 0.9299, F1: 0.9275
+                                                                                                                                                                                                                                                   
+Epoch 178/200
+  Train - Total: 0.2301, Edge: 0.1127, Contrast: 0.3911
+  Val   - Acc: 0.8747, Prec: 0.9249, Rec: 0.9298, F1: 0.9274
+                                                                                                                                                                                                                                                   
+Epoch 180/200
+  Train - Total: 0.2054, Edge: 0.0951, Contrast: 0.3676
+  Val   - Acc: 0.8727, Prec: 0.9253, Rec: 0.9269, F1: 0.9261
+                                                                                                                                                                                                                                                   
+Epoch 182/200
+  Train - Total: 0.1997, Edge: 0.0962, Contrast: 0.3450
+  Val   - Acc: 0.8739, Prec: 0.9251, Rec: 0.9286, F1: 0.9268
+                                                                                                                                                                                                                                                   
+Epoch 184/200
+  Train - Total: 0.1978, Edge: 0.0918, Contrast: 0.3531
+  Val   - Acc: 0.8757, Prec: 0.9250, Rec: 0.9310, F1: 0.9280
+  ✓ 保存最佳模型 (F1: 0.9280)
+                                                                                                                                                                                                                                                   
+Epoch 186/200
+  Train - Total: 0.2073, Edge: 0.0965, Contrast: 0.3693
+  Val   - Acc: 0.8762, Prec: 0.9250, Rec: 0.9317, F1: 0.9283
+  ✓ 保存最佳模型 (F1: 0.9283)
+                                                                                                                                                                                                                                                   
+Epoch 188/200
+  Train - Total: 0.2177, Edge: 0.1058, Contrast: 0.3729
+  Val   - Acc: 0.8754, Prec: 0.9251, Rec: 0.9306, F1: 0.9278
+                                                                                                                                                                                                                                                   
+Epoch 190/200
+  Train - Total: 0.2171, Edge: 0.1042, Contrast: 0.3763
+  Val   - Acc: 0.8758, Prec: 0.9251, Rec: 0.9310, F1: 0.9280
+                                                                                                                                                                                                                                                   
+Epoch 192/200
+  Train - Total: 0.1985, Edge: 0.0891, Contrast: 0.3647
+  Val   - Acc: 0.8758, Prec: 0.9251, Rec: 0.9311, F1: 0.9281
+                                                                                                                                                                                                                                                   
+Epoch 194/200
+  Train - Total: 0.1947, Edge: 0.0849, Contrast: 0.3659
+  Val   - Acc: 0.8757, Prec: 0.9251, Rec: 0.9309, F1: 0.9280
+                                                                                                                                                                                                                                                   
+Epoch 196/200
+  Train - Total: 0.1859, Edge: 0.0881, Contrast: 0.3261
+  Val   - Acc: 0.8762, Prec: 0.9251, Rec: 0.9316, F1: 0.9283
+                                                                                                                                                                                                                                                   
+Epoch 198/200
+  Train - Total: 0.2072, Edge: 0.0964, Contrast: 0.3694
+  Val   - Acc: 0.8761, Prec: 0.9251, Rec: 0.9314, F1: 0.9282
+                                                                                                                                                                                                                                                   
+Epoch 200/200
+  Train - Total: 0.2014, Edge: 0.1010, Contrast: 0.3347
+  Val   - Acc: 0.8761, Prec: 0.9251, Rec: 0.9314, F1: 0.9282
+
+================================================================================
+训练完成!
+================================================================================
+
+在测试集上评估...
+
+测试集结果:
+  Accuracy:  0.8762
+  Precision: 0.9250
+  Recall:    0.9317
+  F1 Score:  0.9283
+
+绘制训练曲线...
+✓ 训练曲线已保存为 training_curves_W15_J400.png
+
+================================================================================
+全部完成!
+================================================================================
