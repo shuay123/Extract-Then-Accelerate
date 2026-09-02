@@ -249,7 +249,7 @@ class EdgeLevelContrastiveLearning_v1(nn.Module):
     """
     边级监督对比学习（向量化加速版）
 
-    默认：same_label 作为正样本（与原逻辑一致：label相同即正）
+    默认：same_label 将同标签边作为正样本。
     可选：pos_label_only=1 只把 label==1 当正样本（更推荐，避免0类主导表示）
     """
     def __init__(self, hidden_dim, temperature=0.5, pos_label_only=None):
@@ -320,10 +320,10 @@ class EdgeLevelContrastiveLearning_v1(nn.Module):
         eye = torch.eye(Eu, device=logits.device, dtype=torch.bool).unsqueeze(0)  # [1,Eu,Eu]
 
         if self.pos_label_only is None:
-            # 原逻辑：同标签为正样本（0-0 和 1-1 都算正）
+            # Treat edges with the same label as positive pairs, including 0-0 and 1-1.
             pos_mask = labels_u.unsqueeze(2).eq(labels_u.unsqueeze(1)) & (~eye)
         else:
-            # 推荐：仅 label==pos_label_only 的边之间互为正样本（例如仅1类）
+            # Restrict positive pairs to edges whose label equals pos_label_only.
             pos_mask = (labels_u == self.pos_label_only)
             pos_mask = (pos_mask.unsqueeze(2) & pos_mask.unsqueeze(1)) & (~eye)
 
@@ -358,7 +358,7 @@ class EdgeLevelContrastiveLearning(nn.Module):
         hidden_dim,
         temperature=0.5,
         pos_label_only=None,
-        sample_per_class=256,    # 建议 128~512；None 表示不采样，用全量边（不推荐）
+        sample_per_class=256,    # Typical range: 128-512; None uses all edges.
         symmetric=False          # 可选：是否做 z1->z2 与 z2->z1 双向平均
     ):
         super().__init__()
@@ -409,7 +409,7 @@ class EdgeLevelContrastiveLearning(nn.Module):
         k0 = min(self.sample_per_class, idx0.numel())
         k1 = min(self.sample_per_class, idx1.numel())
 
-        # 若你要求严格均衡：取 min(k0,k1) 保证两类一样多
+        # Use the smaller class size to keep the two classes balanced.
         k = min(k0, k1)
         if k == 0:
             # 某一类缺失：退化为随机采一些（否则没法构造正样本）
@@ -469,7 +469,7 @@ class EdgeLevelContrastiveLearning(nn.Module):
         B, E, _ = z1.shape
         losses = []
 
-        # 只对 batch 做小循环（B 通常 8~64，没问题；不会造成你之前的 35s/step）
+        # Iterate only over batches; B is typically between 8 and 64.
         for b in range(B):
             idx = self._balanced_indices(y[b])          # [M]
             z1b = z1[b, idx, :]                         # [M,C]

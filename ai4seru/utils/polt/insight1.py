@@ -5,12 +5,12 @@ import os
 
 # 设置matplotlib参数以支持学术论文风格
 plt.rcParams['font.family'] = 'Times New Roman'
-plt.rcParams['font.size'] = 16  # 从12改为16
-plt.rcParams['axes.labelsize'] = 18  # 从14改为18
-plt.rcParams['axes.titlesize'] = 18  # 从14改为18
-plt.rcParams['legend.fontsize'] = 15  # 从11改为15
-plt.rcParams['xtick.labelsize'] = 16  # 从12改为16
-plt.rcParams['ytick.labelsize'] = 16  # 从12改为16
+plt.rcParams['font.size'] = 16
+plt.rcParams['axes.labelsize'] = 18
+plt.rcParams['axes.titlesize'] = 18
+plt.rcParams['legend.fontsize'] = 15
+plt.rcParams['xtick.labelsize'] = 16
+plt.rcParams['ytick.labelsize'] = 16
 plt.rcParams['figure.figsize'] = (8, 6)
 plt.rcParams['axes.grid'] = True
 plt.rcParams['grid.alpha'] = 0.3

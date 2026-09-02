@@ -82,7 +82,7 @@ class GaOperator:
                               config_seru, config_ccea, evaluator=None) -> "SeruSchedule":
         """
         局部搜索：优化 SeruSchedule
-        :param evaluator: [新增] 自定义评估函数，输入为 solution，返回用于比较的 float 适应度（越小越好）。
+        :param evaluator: 自定义评估函数，输入为 solution，返回用于比较的 float 适应度（越小越好）。
                           如果不传，默认使用 CalculateFitness 计算 makespan。
         """
         # 1. 定义评估逻辑：如果有自定义 evaluator 就用自定义的，否则用默认的 makespan

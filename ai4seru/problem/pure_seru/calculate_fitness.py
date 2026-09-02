@@ -21,13 +21,11 @@ class CalculateFitness:
         # 分配批次并计算流动时间和劳动时间
         CalculateFitness.calculate_total_throughput_time(schedule=schedule, formation=formation, config_seru=config_seru, excel_loader=excel_loader)
         # 更新解的各项目标值
-        # solution.makespan = schedule.makespan = formation.makespan = round(max(seru.throughput_time for seru in formation.seru_set), 3) # 原版
-        solution.makespan = schedule.makespan = formation.makespan = round(max(seru.processing_time for seru in formation.seru_set), 3) # 修改
+        solution.makespan = schedule.makespan = formation.makespan = round(max(seru.processing_time for seru in formation.seru_set), 3)
         solution.labour_time = schedule.labour_time = formation.labour_time = round(sum(seru.labour_time for seru in formation.seru_set), 3)
         solution.tardiness = schedule.tardiness = formation.tardiness = round(sum(seru.tardiness for seru in formation.seru_set), 3)
         # 设定目标值
-        # solution.fitness = schedule.fitness = formation.fitness = solution.tardiness # 原版
-        solution.fitness = schedule.fitness = formation.fitness = solution.makespan # 修改
+        solution.fitness = schedule.fitness = formation.fitness = solution.makespan
 
     @staticmethod
     def init(formation, schedule):
@@ -121,7 +119,7 @@ class CalculateFitness:
                 real_worker_id = config_seru.worker_map.get(worker_id, worker_id)
             # 从字典中获取工人的多能工系数
             if real_worker_id in excel_loader.worker_to_task_dict:
-                worker_coefficient_of_multiple_task = excel_loader.worker_to_task_dict[real_worker_id]['系数'] # 修改这里
+                worker_coefficient_of_multiple_task = excel_loader.worker_to_task_dict[real_worker_id]['系数']
             else:
                 raise ValueError(f"Worker ID {real_worker_id} not found in worker_to_task_dict")
             
@@ -132,9 +130,9 @@ class CalculateFitness:
                 c += worker_coefficient_of_multiple_task * (config_seru.num_of_workers - config_seru.max_num_of_multiple_task)
 
             # 从字典中获取工人对产品类型的熟练程度
-            if real_worker_id in excel_loader.worker_to_product_dict: # 修改这里
-                if product_type_id in excel_loader.worker_to_product_dict[real_worker_id]: # 修改这里
-                    worker_to_product_type_coefficient = excel_loader.worker_to_product_dict[real_worker_id][product_type_id] # 修改这里
+            if real_worker_id in excel_loader.worker_to_product_dict:
+                if product_type_id in excel_loader.worker_to_product_dict[real_worker_id]:
+                    worker_to_product_type_coefficient = excel_loader.worker_to_product_dict[real_worker_id][product_type_id]
                 else:
                     raise ValueError(f"Product type ID {product_type_id} not found for worker ID {real_worker_id}")
             else:

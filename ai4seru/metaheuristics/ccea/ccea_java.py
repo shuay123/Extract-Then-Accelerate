@@ -15,8 +15,7 @@ import json
 from utils.config_loader import ConfigLoader
 
 
-# 🟢 [新增] 一个辅助类，用于将字典转换为对象
-# 这样就不需要修改 CCEA 内部所有 `self.config_seru.xxx` 的调用
+# Convert configuration dictionaries to objects that support attribute access.
 class SimpleConfig:
     def __init__(self, config_dict):
         self.__dict__.update(config_dict)
@@ -42,7 +41,7 @@ class CCEA:
             batch_prod_data=problem_data_dict.get("batch_to_product_dict", {}),
             batch_due_dates_data=problem_data_dict.get("batch_due_dates_dict", {})
         )
-        # 检查关键数据是否存在
+        # Validate required input data.
         if not self.config_seru.num_of_workers or not self.config_seru.num_of_batches:
             raise ValueError("config_seru_dict 必须包含 'num_of_workers' 和 'num_of_batches'")
 

@@ -2,10 +2,9 @@ from re import A
 from tokenize import group
 from metaheuristics.ga_formation_edd.ga_formation_v3 import GA
 from metaheuristics.ga_formation_edd.ga_formation_v3_2 import GA2
-from metaheuristics.ccea.ccea_conflict_minimal_v4_hotstart_v2 import CCEA as CCEA4
-from metaheuristics.ccea.ccea_conflict_minimal_v4_hotstart_v3_mixed_fixed import CCEA as CCEA5
-from metaheuristics.ccea.ccea_conflict_minimal_v4_hotstart_v3_mixed_fixed_2 import CCEA as CCEA6
-from metaheuristics.ccea.ccea import CCEA
+from metaheuristics.ccea.ccea_baseline import CCEA as BaselineCCEA
+from metaheuristics.ccea.ccea_eta_mixed_original import CCEA as EtaMixedOriginalCCEA
+from metaheuristics.ccea.ccea_eta_mixed_refined import CCEA as EtaMixedRefinedCCEA
 from utils.config_loader import ConfigLoader
 from utils.call_gnn_api_seru import get_gnn_result
 from problem.pure_seru.pure_seru_entities import Solution
@@ -231,7 +230,7 @@ def data_generate(num_examples, W, J):
     config_seru.num_of_workers = W
     config_seru.num_of_batches = J
 
-    # 定义你需要测试的所有 iteration_stop 阈值
+    # iteration_stop thresholds under test
     iteration_stops = [5, 10, 20, 50]
     max_stop = max(iteration_stops)
     stop_time = 0.2*W*J
@@ -254,18 +253,18 @@ def data_generate(num_examples, W, J):
         # 始终用同一套种群作对比，保证起点公平性
         PSF_50, PSS_50 = init_PS(config_seru.num_of_workers, config_seru.num_of_batches, 50)
         
-        ccea1 = CCEA4(worker_map=worker_map, batch_map=batch_map,
+        ccea1 = BaselineCCEA(worker_map=worker_map, batch_map=batch_map,
                       PSF=copy.deepcopy(PSF_50), PSS=copy.deepcopy(PSS_50))
                       
-        ccea5 = CCEA5(worker_map=worker_map, batch_map=batch_map,
+        ccea5 = EtaMixedOriginalCCEA(worker_map=worker_map, batch_map=batch_map,
                       edge_scores_worker=edge_scores_worker, edge_scores_batch=edge_scores_batch,
                       PSF=copy.deepcopy(PSF_50), PSS=copy.deepcopy(PSS_50))
 
-        ccea2 = CCEA6(worker_map=worker_map, batch_map=batch_map,
+        ccea2 = EtaMixedRefinedCCEA(worker_map=worker_map, batch_map=batch_map,
                       edge_scores_worker=edge_scores_worker, edge_scores_batch=edge_scores_batch,
                       PSF=copy.deepcopy(PSF_50), PSS=copy.deepcopy(PSS_50))
         
-        # 1. 核心运行：只按最大 stop 值跑一次全量
+        # 1. Run once with the maximum stop value.
         print(f"--> 运行不含GNN算法 (CCEA1) [Max Stop = {max_stop}] ...")
         _, _, _, cmax_his1_full, _, _, _ = ccea1.run(Pop_Size=50, iteration_stop=max_stop, stop_time=stop_time)
         
@@ -306,7 +305,7 @@ def data_generate(num_examples, W, J):
     alpha_list = [0.01, 0.015, 0.02, 0.05, 0.08, 0.1, 0.15, 0.2]
     for a in alpha_list:
         t_val = W * J * a
-        time_alpha_map[t_val] = a  # 如果恰好和前面的整数时间重合，这里会覆盖并保留实际的 alpha 值
+        time_alpha_map[t_val] = a  # Exact time collisions retain the observed alpha value.
         
     # 将字典按时间 t 从小到大排序，生成 (t, alpha) 的元组列表
     # sorted_time_items = sorted(time_alpha_map.items(), key=lambda x: x[0])
@@ -370,7 +369,7 @@ def data_generate(num_examples, W, J):
             final_mean_c2_at_t = np.mean(final_c2_at_t_runs)
 
             # ======================================================================
-            # 2. [终极严谨]: 独立配对计算 Gap, Speedup, 和 Saving Ratio
+            # 2. Independently paired Gap, Speedup, and Saving Ratio
             # ======================================================================
             cmax_gap5_runs, cmax_gap2_runs = [], []
             speedup_mixed_runs, speedup_mixed2_runs = [], []
@@ -512,7 +511,7 @@ def data_generate(num_examples, W, J):
     # ==============================================================================
     per_sec_dfs = {}
 
-    # 你想导出的轨迹 stop
+    # Stopping points included in the trajectory export
     trajectory_stops_to_export = [20, 50]
 
     # 构造混合时间网格
@@ -537,7 +536,7 @@ def data_generate(num_examples, W, J):
             df_sec = pd.DataFrame(sec_data, columns=time_cols)
             
             mean_values = df_sec.iloc[:, 1:].mean().tolist()
-            std_values = df_sec.iloc[:, 1:].std().tolist() # 这里计算时还不包含 Mean 行
+            std_values = df_sec.iloc[:, 1:].std().tolist()  # The Mean row is not present yet.
 
             df_sec.loc[len(df_sec)] = ["Mean"] + mean_values
             df_sec.loc[len(df_sec)] = ["Std"] + std_values

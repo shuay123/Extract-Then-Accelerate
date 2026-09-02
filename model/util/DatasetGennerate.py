@@ -98,14 +98,14 @@ class MeaningfulClusteringDataset(Dataset):
             # Step 2: 随机分配节点到各个集合
             cluster_assignment = torch.randint(0, self.n_clusters, (self.n_nodes,))
             
-            # Step 3: 根据cluster生成节点特征（关键！）
+            # Step 3: Generate node features from cluster assignments.
             node_features = torch.zeros(self.n_nodes, self.feature_dim)
             
             for i in range(self.n_nodes):
                 cluster_id = cluster_assignment[i].item()
                 cluster_center = cluster_centers[cluster_id]
                 
-                # 🔥 关键：从cluster中心采样，添加高斯噪声
+                # Sample around each cluster center with Gaussian noise.
                 # 同一cluster的节点特征相似
                 noise = torch.randn(self.feature_dim) * 0.1  # 标准差0.1
                 node_features[i] = cluster_center + noise
@@ -472,4 +472,3 @@ if __name__ == '__main__':
     train_loader, test_loader = get_dataset(args)
     print(f"训练集大小: {len(train_loader.dataset)}")
     print(f"测试集大小: {len(test_loader.dataset)}")
-    

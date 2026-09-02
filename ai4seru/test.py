@@ -1,6 +1,5 @@
 from metaheuristics.ga_formation_edd.ga_formation_v3 import GA
 from metaheuristics.ga_formation_edd.ga_formation_v3_2 import GA2
-from metaheuristics.ccea.ccea import CCEA
 from utils.excel_output import save_serudata_to_excel
 from utils.config_loader import ConfigLoader
 from problem.pure_seru.pure_seru_entities import Solution
@@ -38,7 +37,7 @@ def generate_result_data_structure(solution: Solution, config_seru, run_idx=1) -
         for prod_dict in excel_loader.worker_to_product_dict.values():
             all_product_types.update(prod_dict.keys())
     
-    # 如果工人没涵盖所有产品，再检查一下批次字典 (双重保险)
+    # Fall back to product types present in the batch dictionary.
     if excel_loader.batch_to_product_dict:
         for val in excel_loader.batch_to_product_dict.values():
             if '产品类型' in val:
@@ -101,7 +100,7 @@ def generate_result_data_structure(solution: Solution, config_seru, run_idx=1) -
         'Data': batch_data
     })
     # =========================================================
-    # [新增] Sheet: workerFeature (归一化后的处理时间)
+    # Sheet: workerFeature (normalized processing time)
     # =========================================================
     # 1. 计算原始时间矩阵并找到最大值
     raw_times_matrix = []
@@ -138,7 +137,7 @@ def generate_result_data_structure(solution: Solution, config_seru, run_idx=1) -
             worker_prod_coeff = worker_prods.get(p_type, 0.0)
             
             # 计算单位任务时间 (task_time_in_seru)
-            # 假设 Seru 只有该工人，所以 len(workers_set) = 1，不需要除以人数
+            # A single-worker Seru has len(workers_set) == 1, so no averaging is needed.
             if use_standard_logic:
                 unit_time = task_time_const * c * worker_prod_coeff
             else:
@@ -194,7 +193,7 @@ def generate_result_data_structure(solution: Solution, config_seru, run_idx=1) -
         seru_config_list.append(real_members)
         
         # 记录批次归属 (seru.batches_set 里存的已经是 真实ID，因为 calculate_fitness_edd 中使用了 selected_batches)
-        # 但为了保险，还是确认一下数据流。如果之前 logic 改对了，这里就是 real_id。
+        # At this stage the data flow has already mapped worker IDs to real IDs.
         for batch_id in seru.batches_set:
             batch_to_seru_map[batch_id] = seru_no
 
@@ -242,7 +241,6 @@ def generate_result_data_structure(solution: Solution, config_seru, run_idx=1) -
         for i in member_indices:
             for j in member_indices:
                 w_matrix[i][j] = 1 # 对角线也设为1
-                # 如果不需要对角线为1，改为 if i != j: w_matrix[i][j] = 1
 
     w_data = [['Labels']] # Header
     for row in w_matrix:
@@ -296,7 +294,7 @@ def get_init_seru():
     selected_batches = random.sample(all_real_batches, config_seru.num_of_batches)
 
     # 建立映射字典：逻辑ID(1~N) -> 真实ID(Random)
-    # 注意：逻辑ID必须从1开始，因为你的 Initialization 代码是从1生成的
+    # Logical IDs start at 1 to match Initialization.
     worker_map = {
         logic_id + 1: real_id 
         for logic_id, real_id in enumerate(selected_workers)
@@ -322,8 +320,7 @@ def data_generate(num_examples):
         ga = GA(worker_map, batch_map)
         loader = ExcelDataLoader()
         ga2 = GA2(worker_map, batch_map)
-        # ccea = CCEA(worker_map, batch_map)
-        
+
         # 运行GA
         print(f"运行第 {i+1} 个数据集的GA2")
         best_formation, best_scheduling, best_solution1,archive, config_seru = ga2.run()

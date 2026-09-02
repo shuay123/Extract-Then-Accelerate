@@ -1,12 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-最终修复版 V4：CCEA + 冲突软约束 (Fully Symmetric Logic)
-更新内容：
-1. 工人动态权重计算逻辑与批次完全对齐：引入 Seru 平均 Weakness 作为调节因子。
-   公式：Sigmoid( Logit(w) + alpha * (Seru_Avg_Weakness - 0.5) )
-2. 保持对称更新策略：
-   - 进化构造: Worker=Dynamic, Batch=Base
-   - 进化调度: Worker=Base, Batch=Dynamic
+Refined ETA mixed CCEA used by the CCEA6/Mixed2 experiment branch.
+
+Worker weights use Sigmoid(Logit(w) + alpha * (Seru_Avg_Weakness - 0.5)).
+Formation evolution uses Worker=Dynamic and Batch=Base; scheduling reverses the modes.
 """
 import sys
 import os
@@ -35,7 +32,7 @@ from utils.config_loader import ConfigLoader
 
 
 # ------------------------------
-# 冲突模型（核心逻辑）
+# Conflict model
 # ------------------------------
 class ConflictModel:
     def __init__(
@@ -47,8 +44,8 @@ class ConflictModel:
         alpha: float = 1.0,
         theta_hard_worker: Optional[float] = None,
         theta_hard_batch: Optional[float] = None,
-        top_k_worker: int = 15,  # [推荐] 工人少，保留 10-15 个即可
-        top_k_batch: int = 25    # [推荐] 批次多，保留 20-30 个
+        top_k_worker: int = 15,  # Worker Top-K range: 10-15.
+        top_k_batch: int = 25    # Batch Top-K range: 20-30.
     ):
         self.rho = float(rho)
         self.eps = float(eps)
@@ -145,12 +142,12 @@ class ConflictModel:
         return 1.0 / (1.0 + math.exp(-z))
 
     def _calculate_single_seru_avg_weakness(self, worker_ids: List[int], excel_loader, config_seru) -> float:
-        """[辅助] 实时计算单个 Seru 的 Weakness (逻辑同上一版)"""
+        """实时计算单个 Seru 的 Weakness。"""
         if not worker_ids: return 0.5
         w2p = getattr(excel_loader, "worker_to_product_dict", {}) or {}
         if not w2p: return 0.5
 
-        # 简单的 product types 收集 (可优化缓存，这里保持稳健)
+        # Collect the product types represented in the proficiency data.
         product_types = set()
         for mp in w2p.values():
             for t in mp.keys(): product_types.add(t)
@@ -186,10 +183,7 @@ class ConflictModel:
 
     def update_dynamic_by_formation(self, best_formation: SeruFormation, config_seru, excel_loader: ExcelDataLoader):
         """缓存上一代最优解的 Weakness (供 Batch 阶段使用)"""
-        # ... (此处逻辑与原版一致，利用 _calculate_single_seru_avg_weakness 简化代码) ...
-        # 为了兼容性，这里保留原逻辑结构，但核心计算可以复用，或者保留原样。
-        # 鉴于 Batch 阶段依赖 self._weakness_by_seru (dict结构)，这里保持原样最安全。
-        # 下面是精简版实现：
+        # The batch stage reads per-SERU values from self._weakness_by_seru.
         
         self._weakness_by_seru = []
         serus = getattr(best_formation, "seru_set", []) or []
@@ -203,9 +197,7 @@ class ConflictModel:
         product_types = sorted(list(product_types))
         
         # 2. 遍历 Seru 计算
-        # 注意：这里需要返回 Dict[Type, Weakness] 格式供 Batch 使用
-        # 所以不能直接调 _calculate_single_seru_avg_weakness (它返回 float)
-        # 这里保留原逻辑...
+        # Return Dict[Type, Weakness] values rather than a single scalar.
         
         N = getattr(config_seru, "num_of_workers", 0)
         max_multi = getattr(config_seru, "max_num_of_multiple_task", 0)
@@ -241,7 +233,7 @@ class ConflictModel:
                   batch_mode: str = "base",
                   config_seru=None) -> Tuple[float, float, float]:
         """
-        [高性能修正版] 结合 Top-K 邻接表 + 实时 Weakness 计算 + 正确的 ID 映射
+        结合 Top-K 邻接表、实时 Weakness 计算和 ID 映射。
         """
         serus = getattr(formation, "seru_set", []) or []
         if not serus:
@@ -304,7 +296,7 @@ class ConflictModel:
                 wid_j = j + 1 # 0-based -> 1-based ID
                 s_j = worker_to_seru.get(wid_j)
                 
-                # [核心判断] 只有当两人在同一个 Seru 时才计算冲突
+                # Compute worker conflict only within the same Seru.
                 if s_j is not None and s_i == s_j:
                     if worker_mode == "base":
                         P_W += w
@@ -347,7 +339,7 @@ class ConflictModel:
                 bid_q = q + 1
                 s_q = batch_to_seru.get(bid_q)
                 
-                # [核心判断] 同一 Seru 才计算
+                # Compute batch conflict only within the same Seru.
                 if s_q is not None and s_p == s_q:
                     if batch_mode == "base":
                         P_B += c_pq
@@ -461,7 +453,7 @@ class CCEA:
             score_mat_w = self._as_numpy_scores(self.edge_scores_worker, W, "edge_scores_worker")
             # 逻辑反转: Conf = 1 - Score
             w_conf_matrix = 1.0 - score_mat_w
-            # 修正: 确保非负，且对角线(自己对自己)冲突为0
+            # Keep conflicts nonnegative and set the diagonal to zero.
             w_conf_matrix = np.clip(w_conf_matrix, 0.0, 1.0)
             np.fill_diagonal(w_conf_matrix, 0.0)
         else:
@@ -516,8 +508,8 @@ class CCEA:
         if isinstance(M, dict):
             A = np.zeros((size, size), dtype=float)
             
-            # [修复] 预先检测 dict key 的 base：0-based vs 1-based
-            # 更稳健的逻辑：
+            # Detect whether dictionary keys are zero-based or one-based.
+            # Determine the indexing convention from observed keys:
             # 1) 只要外层/内层 keys 里出现 0 -> 0-based
             # 2) 或出现 size -> 1-based（常见：1..size）
             # 3) 否则用 max key 辅助判断：max<=size-1 => 0-based；max<=size => 1-based
@@ -734,7 +726,7 @@ class CCEA:
             raise ValueError("schedule_code is not a permutation of [1..B+W-1]")
         return code
 
-    def _build_hotstart_solution_v0(self, edge_scores_worker, edge_scores_batch, n_workers: int, n_batches: int) -> Tuple[SeruFormation, SeruSchedule]:
+    def _build_hotstart_solution(self, edge_scores_worker, edge_scores_batch, n_workers: int, n_batches: int) -> Tuple[SeruFormation, SeruSchedule]:
         """根据 edge_scores 构造 (formation, schedule) 作为热启动个体。"""
         K = self._choose_k_serus(n_workers, n_batches)
         Sw = self._as_numpy_scores(edge_scores_worker, n_workers, "edge_scores_worker")
@@ -753,37 +745,7 @@ class CCEA:
         Initialization.produce_seru_schedule(n_batches, s)
 
         return f, s
-    def _build_hotstart_solution(
-        self,
-        edge_scores_worker,
-        edge_scores_batch,
-        n_workers: int,
-        n_batches: int
-    ) -> Tuple[Optional[SeruFormation], Optional[SeruSchedule]]:
-        """
-        根据 edge_scores 构造热启动解。
-        允许只构造 formation 或只构造 schedule。
-        """
-        K = self._choose_k_serus(n_workers, n_batches)
 
-        f = None
-        s = None
-
-        if edge_scores_worker is not None:
-            Sw = self._as_numpy_scores(edge_scores_worker, n_workers, "edge_scores_worker")
-            worker_clusters = self._partition_by_scores(Sw, K)
-            f_code = self._clusters_to_formation_code(worker_clusters, n_workers)
-            f = SeruFormation(formation_code=f_code)
-            Initialization.produce_seru_formation(n_workers, f)
-
-        if edge_scores_batch is not None:
-            Sb = self._as_numpy_scores(edge_scores_batch, n_batches, "edge_scores_batch")
-            batch_clusters = self._partition_by_scores(Sb, K)
-            s_code = self._clusters_to_schedule_code(batch_clusters, n_batches, n_workers)
-            s = SeruSchedule(schedule_code=s_code)
-            Initialization.produce_seru_schedule(n_batches, s)
-
-        return f, s
     def _reset_seru_metrics(self, formation: SeruFormation):
         if not formation or not getattr(formation, "seru_set", None):
             return
@@ -829,7 +791,7 @@ class CCEA:
         solution.makespan = M
         solution.fitness = penalized_fitness
 
-        # 注意：formation/schedule 的 makespan 在本实现中用于“给定另一阶段固定时”的联合 makespan（便于 min(cmax) 选择）
+        # formation/schedule makespan stores the joint value with the partner stage fixed.
         if solution.formation is not None:
             solution.formation.fitness = penalized_fitness
             solution.formation.makespan = M
@@ -933,54 +895,47 @@ class CCEA:
             PSF, PSS = self.PSF[:pop_size], self.PSS[:pop_size]
         cmax_his, cmax_his_30, fitness_his = [], [], []
 
-        # --- Hot-start：用 edge_scores 生成一个更“合理”的初始解（覆盖 PSF[0]/PSS[0]） ---
-        has_worker_hot = self.edge_scores_worker is not None
-        has_batch_hot = self.edge_scores_batch is not None
-
-        if pop_size > 0 and (has_worker_hot or has_batch_hot):
+        # Build an edge-score-guided hot-start solution in PSF[0]/PSS[0].
+        if pop_size > 0 and self.edge_scores_worker is not None and self.edge_scores_batch is not None:
             try:
                 H = int(self.config_ccea.hotstart_frac* pop_size)
-                # 保险：至少 1 个，最多 pop_size
+                # Clamp the count to [1, pop_size].
                 H = max(1, min(H, pop_size))
-
                 f_hot, s_hot = self._build_hotstart_solution(self.edge_scores_worker, self.edge_scores_batch, N_W, N_B)
-                if f_hot is not None:
-                    PSF[0] = f_hot
-                if s_hot is not None:
-                    PSS[0] = s_hot
+                PSF[0] = f_hot
+                PSS[0] = s_hot
 
                 for idx in range(1, H):
-                    if f_hot is not None:
-                        f_code = list(f_hot.formation_code)
-                        f_pos = [p for p, v in enumerate(f_code) if int(v) <= N_W]
-                        if len(f_pos) >= 2:
-                            for _ in range(3):
-                                pi, pj = random.sample(f_pos, 2)
-                                f_code[pi], f_code[pj] = f_code[pj], f_code[pi]
+                    f_code = list(f_hot.formation_code)
+                    s_code = list(s_hot.schedule_code)
 
-                        f = SeruFormation(formation_code=f_code)
-                        Initialization.produce_seru_formation(N_W, f)
-                        PSF[idx] = f
+                    # Larger swap counts produce stronger perturbations.
+                    # Swap only worker or batch IDs; separator tokens remain fixed.
+                    # 避免产生空 Seru / 空 Batch 组。
+                    steps = 3
 
-                    if s_hot is not None:
-                        s_code = list(s_hot.schedule_code)
-                        s_pos = [p for p, v in enumerate(s_code) if int(v) <= N_B]
-                        if len(s_pos) >= 2:
-                            for _ in range(3):
-                                pi, pj = random.sample(s_pos, 2)
-                                s_code[pi], s_code[pj] = s_code[pj], s_code[pi]
+                    # Formation：只交换 worker id（<= N_W）
+                    f_pos = [p for p, v in enumerate(f_code) if int(v) <= N_W]
+                    if len(f_pos) >= 2:
+                        for _ in range(steps):
+                            pi, pj = random.sample(f_pos, 2)
+                            f_code[pi], f_code[pj] = f_code[pj], f_code[pi]
 
-                        s = SeruSchedule(schedule_code=s_code)
-                        Initialization.produce_seru_schedule(N_B, s)
-                        PSS[idx] = s
+                    # Schedule：只交换 batch id（<= N_B）
+                    s_pos = [p for p, v in enumerate(s_code) if int(v) <= N_B]
+                    if len(s_pos) >= 2:
+                        for _ in range(steps):
+                            pi, pj = random.sample(s_pos, 2)
+                            s_code[pi], s_code[pj] = s_code[pj], s_code[pi]
 
-                if has_worker_hot and has_batch_hot:
-                    print("[HotStart] Seeded formation and schedule from edge_scores.")
-                elif has_worker_hot:
-                    print("[HotStart] Seeded formation only from edge_scores_worker.")
-                elif has_batch_hot:
-                    print("[HotStart] Seeded schedule only from edge_scores_batch.")
+                    f = SeruFormation(formation_code=f_code)
+                    Initialization.produce_seru_formation(N_W, f)
+                    PSF[idx] = f
 
+                    s = SeruSchedule(schedule_code=s_code)
+                    Initialization.produce_seru_schedule(N_B, s)
+                    PSS[idx] = s
+                print("[HotStart] Seeded initial formation/schedule from edge_scores.")
             except Exception as e:
                 print(f"[HotStart] skipped due to error: {e}")
 
@@ -1015,14 +970,14 @@ class CCEA:
             # Stage 1: Evolve Formation (进化构造)
             # 策略：动态构造冲突 (Dynamic Worker) + 静态调度冲突 (Static Batch)
             # =========================================================
-            # [关键修复] 在 tournament selection 之前，用当前搭档 best_schedule
+            # Refresh fitness with the current best_schedule before tournament selection.
             # 评估并回写每个 formation 的 makespan/fitness，避免第 1 轮 fitness 未初始化
             # 或使用上一轮 stale fitness 的问题。
             r_vals = []
             _cache_F = []  # (formation, makespan, r)
             for f in PSF:
                 sol = Solution(formation=f, schedule=best_schedule)
-                # [模式切换] Worker: Dynamic, Batch: Base
+                # Worker: Dynamic; Batch: Base
                 r = self._evaluate_solution(sol, worker_mode="dynamic", batch_mode="base", M_ref=M_ref)
                 r_vals.append(r)
                 _cache_F.append((f, float(sol.makespan), float(r)))
@@ -1030,7 +985,7 @@ class CCEA:
             if r_vals:
                 self._update_gamma(sum(r_vals)/len(r_vals))
 
-            # 用更新后的 gamma 回写 parent fitness（无需重复计算 makespan）
+            # Refresh parent fitness from gamma while reusing makespan.
             for f, ms, r in _cache_F:
                 f.makespan = ms
                 f.fitness = ms + self.gamma * M_ref * r
@@ -1066,7 +1021,7 @@ class CCEA:
             # 局部搜索 (Formation)
             curr_best_f = min(PSF, key=lambda x: x.fitness)
             def f_eval(sol): 
-                # [模式切换] Worker: Dynamic, Batch: Base
+                # Worker: Dynamic; Batch: Base
                 self._evaluate_solution(sol, worker_mode="dynamic", batch_mode="base", M_ref=M_ref)
                 return sol.fitness            
             try:
@@ -1088,13 +1043,13 @@ class CCEA:
             # Stage 2: Evolve Schedule (进化调度)
             # 策略：静态构造冲突 (Static Worker) + 动态调度冲突 (Dynamic Batch)
             # =========================================================
-            # [关键修复] 在 tournament selection 之前，用当前搭档 curr_best_f
+            # Refresh fitness with curr_best_f before tournament selection.
             # 评估并回写每个 schedule 的 makespan/fitness，避免 stale fitness。
             r_vals = []
             _cache_S = []  # (schedule, makespan, r)
             for s in PSS:
                 sol = Solution(formation=curr_best_f, schedule=s)
-                # [模式切换] Worker: Base, Batch: Dynamic
+                # Worker: Base; Batch: Dynamic
                 r = self._evaluate_solution(sol, worker_mode="base", batch_mode="dynamic", M_ref=M_ref)
                 r_vals.append(r)
                 _cache_S.append((s, float(sol.makespan), float(r)))
@@ -1128,7 +1083,7 @@ class CCEA:
             PSS = new_PSS
             
             for s_ind in PSS:
-                sol_temp = Solution(formation=curr_best_f, schedule=s_ind) # 注意这里用的是 curr_best_f
+                sol_temp = Solution(formation=curr_best_f, schedule=s_ind)  # Pair with curr_best_f.
                 self._evaluate_solution(sol_temp, worker_mode="base", batch_mode="dynamic", M_ref=M_ref)
                 s_ind.fitness = sol_temp.fitness
                 s_ind.makespan = sol_temp.makespan
@@ -1136,7 +1091,7 @@ class CCEA:
             # 局部搜索 (Schedule)
             curr_best_s = min(PSS, key=lambda x: x.fitness)
             def s_eval(sol):
-                # [模式切换] Worker: Base, Batch: Dynamic
+                # Worker: Base; Batch: Dynamic
                 self._evaluate_solution(sol, worker_mode="base", batch_mode="dynamic", M_ref=M_ref)
                 return sol.fitness
 
@@ -1162,7 +1117,7 @@ class CCEA:
                 best_solution = curr_sol
                 iteration_last = iteration
 
-            # [关键修复] 更新协同进化的“搭档解”，供下一轮 Stage 1/Stage 2 使用
+            # Update partner solutions for Stage 1 and Stage 2 of the next iteration.
             best_formation = copy.deepcopy(curr_best_f)
             best_schedule = copy.deepcopy(curr_best_s)
 

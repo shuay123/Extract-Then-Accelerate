@@ -42,7 +42,6 @@ public class ApiClient {
 //                System.out.println("--- 来自 Python 结果 ---");
 //                System.out.println(response.body());
                 return response.body();
-                // 在这里，您可以使用 Jackson/Gson 将 response.body() 解析为 Java DTO
             } else {
                 System.err.println("Python 执行失败: " + response.statusCode());
                 System.err.println(response.body());

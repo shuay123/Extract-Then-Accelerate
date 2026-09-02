@@ -173,7 +173,7 @@ def run_deepnet_endpoint():
         if config_seru_data is None or problem_data is None:
             return jsonify({"error": "缺少 config_seru 或 problem_data"}), 400
 
-        # ── 关键：从请求中读取 W 和 J ──
+        # Read W and J from the request.
         W = int(config_seru_data.get("num_of_workers", 0))
         J = int(config_seru_data.get("num_of_batches", 0))
         print(f"w:{W},J:{J}")
@@ -249,7 +249,6 @@ def get_data(input_data):
         }), 400
 
     return config_seru_data, problem_data
-# TODO：需要改成返回x_worker & x_batch，改完了 需要测试
 def get_worker_to_batch(data):
     worker_to_task_dict = data["problem_data"]["worker_to_task_dict"]
     worker_to_product_dict = data["problem_data"]["worker_to_product_dict"]

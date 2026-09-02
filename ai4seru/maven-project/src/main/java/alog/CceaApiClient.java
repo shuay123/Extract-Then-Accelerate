@@ -10,10 +10,9 @@ public class CceaApiClient {
 
     public static void main(String[] args) throws Exception {
         
-        // 1. 确保您的 Python 'ccea.py' API 正在运行
+        // 1. The Python CCEA API must be running.
         
-        // 2. 从文件或字符串加载您的 JSON 
-        // (在实际应用中，您会使用 Jackson 或 Gson 库从 Java 对象动态构建此字符串)
+        // 2. Load the JSON request from a file or construct it with Jackson or Gson.
         String jsonPayload = """
         {
           "config_seru": {
@@ -64,7 +63,7 @@ public class CceaApiClient {
         if (response.statusCode() == 200) {
             System.out.println("--- CCEA 优化结果 (来自 Python) ---");
             System.out.println(response.body());
-            // 在这里，您可以使用 Jackson/Gson 将 response.body() 解析为 Java DTO
+            // Jackson or Gson can deserialize the response into a Java DTO.
         } else {
             System.err.println("Python CCEA 执行失败: " + response.statusCode());
             System.err.println(response.body());

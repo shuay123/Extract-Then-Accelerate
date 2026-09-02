@@ -54,9 +54,8 @@ public class DNN_JCompany_Service {
             configSeru.put("num_of_workers", r.workerIds.length);
             configSeru.put("num_of_batches", r.batchIds.length);
 
-            // 假设 Config 类中有这些字段，如果没有请使用硬编码默认值
-            // 这里使用了您 JSON 示例中的值作为默认逻辑
-            configSeru.put("max_num_of_multiple_task", 10); // 示例值，建议改为 cfg.maxNumOfMultipleTask
+            // Fallback values for configuration fields not exposed by Config.
+            configSeru.put("max_num_of_multiple_task", 10);
 
 
             // ==========================================
@@ -85,10 +84,10 @@ public class DNN_JCompany_Service {
             }
 
             // 遍历所有批次，提取产品类型，填充熟练度
-            // 注意: workerProficiencies 是 double[workerIndex][batchIndex]
+            // workerProficiencies is indexed as [workerIndex][batchIndex].
             for (int j = 0; j < r.batches.size(); j++) {
                 SeruSamplerService.BatchInfo batch = r.batches.get(j);
-                // 假设 BatchInfo 中包含产品类型 ID，这里转为 String
+                // Convert the BatchInfo product type ID to a string.
                 String productTypeId = String.valueOf(batch.productType);
 
                 for (int i = 0; i < r.workerIds.length; i++) {
@@ -110,7 +109,7 @@ public class DNN_JCompany_Service {
                 String bId = String.valueOf(j+1);
 
                 Map<String, Object> batchInfo = new LinkedHashMap<>();
-                batchInfo.put("产品类型", String.valueOf(batch.productType)); // 注意 JSON 示例中是字符串 "1"
+                batchInfo.put("产品类型", String.valueOf(batch.productType)); // JSON uses string product-type IDs.
                 batchInfo.put("批次大小", r.batchSize[j+1]);
 
                 batchToProductDict.put(bId, batchInfo);
@@ -126,7 +125,7 @@ public class DNN_JCompany_Service {
 
             // 创建 ObjectMapper
             ObjectMapper mapper = new ObjectMapper();
-            // 开启美化输出 (Pretty Printer) 以匹配您示例的缩进格式
+            // Pretty-print the JSON output.
             mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
             return mapper.writeValueAsString(root);

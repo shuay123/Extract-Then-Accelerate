@@ -242,7 +242,7 @@ def plot_a_b_matrices(
     ddof: int = 1,
     nan_policy: str = "omit",
 ) -> Dict:
-    """兼容你的旧接口：输入两组 (n,m) 矩阵。
+    """兼容旧接口：输入两组 (n,m) 矩阵。
 
     额外支持：均值曲线阴影 (ci=std/stderr)。
     """
@@ -421,7 +421,7 @@ def plot_multi_xy_groups(
     ci: Optional[str] = "stderr",  # None | "std" | "stderr"
     ci_alpha: float = 0.18,
     ddof: int = 1,
-    nan_policy: str = "omit",  # 这里只建议用 omit
+    nan_policy: str = "omit",  # Supported policy: omit.
     y_col: int = 0,
     x_col: int = 1,
     truncate: str = "min_len",  # "none" | "min_len" | "min_end" | "overlap"
@@ -435,7 +435,7 @@ def plot_multi_xy_groups(
 ) -> Dict:
     """多组“时间序列点集”对比。
 
-    数据格式（你描述的情况）：
+    数据格式：
     - 每条序列(run) 是二维数组 shape=(L,2)，每行是一个点： [y, x_time]
     - 每组 group 可包含多条 run（重复实验/不同 seed），长度 L 可不同
     - 各组 run 数量也可不同
@@ -578,7 +578,7 @@ def plot_multi_xy_groups(
                 src_ax = ax
         handles = src_ax.lines
         # handles 可能少于组数（因为某些组缺 run/为空），但 label 顺序仍按出现顺序
-        # 这里更稳：根据 _labels 生成 proxy handles
+        # Generate proxy handles from _labels.
         if len(handles) > 0:
             # 如果 handles 少，仍使用已有 handles 的颜色；其余用空 proxy
             proxy = []
@@ -786,7 +786,7 @@ def plot_multi_xy_groups_minlen(
     """便捷封装：强制按最短点数截断（truncate='min_len'）。
 
     说明：为保持均值曲线的时间语义，均值图仍按最短结束时间截断并在统一时间网格上插值。
-    你也可以直接调用 plot_multi_xy_groups(..., truncate='min_len')。
+    等价调用为 plot_multi_xy_groups(..., truncate='min_len')。
     """
     return plot_multi_xy_groups(groups, labels=labels, truncate=truncate, **kwargs)
 

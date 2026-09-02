@@ -45,7 +45,6 @@ class ExcelDataLoader:
         except Exception as e:
             print(f"Error reading file: {str(e)}")
 
-    # 🟢 [新增] 
     def load_data_from_dicts(self, worker_task_data, worker_prod_data, batch_prod_data, batch_due_dates_data=None):
         """
         直接从字典加载数据，而不是从 Excel 文件。

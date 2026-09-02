@@ -114,8 +114,7 @@ def plot_multi_matrices(
     # 全局图例（默认更干净）
     if not show_subplot_legend:
         handles, legend_labels = axes[0].get_legend_handles_labels()
-        # axes[0] 上 label=None，所以需要从当前 rc cycle 的 line 拿 handle：改为从 fig 中找
-        # 更稳：从最后一个有效子图里取所有 line
+        # Collect line handles from the last valid subplot because axes[0] has no labels.
         src_ax = axes[0]
         for ax in axes[:n]:
             if len(ax.lines) >= len(mats):
@@ -245,7 +244,7 @@ def plot_a_b_matrices(
         nan_policy=nan_policy,
     )
 
-    # 兼容你之前的用法：保留 a_ave / b_ave 字段
+    # Retain a_ave and b_ave for compatibility with existing callers.
     return {
         "a_ave": out["means"][label_1],
         "b_ave": out["means"][label_2],

@@ -282,7 +282,7 @@ public class SeruSamplerService {
                     batchSize,
                     prof,
                     workerCoefficients,
-                    0.0,        // Gap：原文件未导出，置默认值，按需替换
+                    0.0,        // Gap is absent from the source file; default to zero.
                     profToType,
                     cmax,
                     solvingtime
@@ -455,7 +455,7 @@ public class SeruSamplerService {
     // ======== 数据结构 ========
     public static class BatchInfo {
         public final int batchId;
-        public final int productType; // 已改为整型
+        public final int productType; // Integer product-type ID.
         public final int batchSize;
         public BatchInfo(int batchId, int productType, int batchSize) {
             this.batchId = batchId; this.productType = productType; this.batchSize = batchSize;

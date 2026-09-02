@@ -122,7 +122,7 @@ public class Seru_cacu {
 
         return p;
     }
-    // 初始版本计算方法，与论文中一致
+    // Processing-time calculation defined in the paper.
     public static double[][] computePFromSeruConfig_V0(SeruConfig cfg, SeruProblem seru_p) {
         int J = cfg.serus.size();
         double[][] p = new double[seru_p.M + 1][J + 1]; // p[m][j], m=0..M, j=1..J

@@ -99,7 +99,7 @@ def plot_convergence_curves():
     # 设置网格
     ax.grid(True, alpha=0.3, linestyle='--')
 
-    # 设置坐标轴范围（可以根据数据调整）
+    # Set axis limits from the data range.
     # ax.set_xlim([0, None])  # 自动调整x轴范围
     # ax.set_ylim([None, 0])  # 假设reward是负值，最大为0
 

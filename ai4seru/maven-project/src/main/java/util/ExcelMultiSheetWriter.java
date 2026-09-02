@@ -109,7 +109,7 @@ public class ExcelMultiSheetWriter {
             cell.setCellValue((Calendar) v);
             cell.setCellStyle(dateStyle);
         } else if (v instanceof TemporalAccessor) {
-            // 统一转成字符串（也可自行转 java.util.Date）
+            // Convert all date cells to strings.
             cell.setCellValue(v.toString());
         } else {
             cell.setCellValue(String.valueOf(v));

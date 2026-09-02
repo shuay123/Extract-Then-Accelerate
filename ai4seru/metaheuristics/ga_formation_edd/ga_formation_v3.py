@@ -162,7 +162,7 @@ class GA:
             best_formation = min(current_all, key=lambda x: x.fitness).__copy__()
 
             # 3. 代际替换 (Generational Replacement)
-            # 核心修改：直接用子代替换父代，而不是混合排序
+            # Replace parents directly with offspring instead of sorting a mixed pool.
             # 这强迫算法跳出局部最优，去探索子代的新空间
             PSF = offspring 
 
@@ -172,7 +172,7 @@ class GA:
             worst_child_idx = PSF.index(max(PSF, key=lambda x: x.fitness))
             PSF[worst_child_idx] = parent_elite
 
-            # 5. [关键] 多样性监控与强制变异 (解决死锁)
+            # 5. Diversity monitoring and forced mutation
             # 检查种群中 fitness 不同的个体数量
             unique_fitness_values = set(ind.fitness for ind in PSF)
             
@@ -241,7 +241,7 @@ def main():
     selected_batches = random.sample(all_real_batches, config_seru.num_of_batches)
 
     # 建立映射字典：逻辑ID(1~N) -> 真实ID(Random)
-    # 注意：逻辑ID必须从1开始，因为你的 Initialization 代码是从1生成的
+    # Logical IDs start at 1 to match Initialization.
     worker_map = {
         logic_id + 1: real_id 
         for logic_id, real_id in enumerate(selected_workers)

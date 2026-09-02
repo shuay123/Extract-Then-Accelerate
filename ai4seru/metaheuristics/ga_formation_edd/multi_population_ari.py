@@ -32,7 +32,7 @@ def run_multi_population_ari()-> (List[SeruFormation]):
             print(f"岛 {idx} best = {best_fit:.4f},  archive size = {len(arch)}")
             all_archives.extend(arch)  # 直接拼接
 
-    # 这里 all_archives 就是所有岛屿的 archive 总和
+    # all_archives contains the archives from every island.
     print(f"\n合并后 archive 总大小: {len(all_archives)}")
     # ---------- 计算 ARI 均值并选出差异最大的 N 个 ----------
     ari_scores = calculate_ari(all_archives)  # List[float]，一一对应

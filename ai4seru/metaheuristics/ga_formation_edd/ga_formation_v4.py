@@ -146,7 +146,7 @@ class GA:
             
             # 1. 混合父代与子代
             # V3的问题是扔掉了父代，导致进化不稳；V2的问题是子代分数是假的。
-            # 这里我们结合两者：用计算了真实分数的子代，和父代一起竞争。
+            # Let evaluated offspring and parents compete in the same pool.
             combined_population = PSF + offspring
             
             # 2. 优胜劣汰排序
@@ -161,7 +161,7 @@ class GA:
             # 取当前种群中最好的个体作为局部搜索的种子
             best_formation = PSF[0].__copy__()
 
-            # 5. (可选但推荐) 简单版多样性维持
+            # 5. Diversity maintenance
             # 如果种群中最优个体和第 N/2 个个体的 fitness 完全一样，说明种群可能同质化了
             # 此时对后 50% 的个体进行强制“灾变”变异，引入新血统
             if PSF[0].fitness == PSF[int(self.config_ga.population_size * 0.5)].fitness:

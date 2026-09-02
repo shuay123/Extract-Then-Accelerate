@@ -54,7 +54,7 @@ class NodeFeatures(nn.Module):
 
 
 class EdgeFeatures(nn.Module):
-    """边特征更新模块 - 修复版"""
+    """边特征更新模块。"""
     def __init__(self, hidden_dim):
         super(EdgeFeatures, self).__init__()
         self.hidden_dim = hidden_dim  # 保存hidden_dim
@@ -85,7 +85,7 @@ class EdgeFeatures(nn.Module):
         Vx_to = self.V_to(x)
         Vx = Vx_to[torch.arange(batch_size).view(-1, 1), edge_index]
         
-        # 修复：使用self.hidden_dim而不是硬编码的128
+        # Use the configured hidden dimension instead of a fixed width.
         Vx = Vx.view(batch_size, -1, n_edges, self.hidden_dim) + \
              Vx_from.view(batch_size, -1, 1, self.hidden_dim)
         Vx = Vx.view(batch_size, -1, self.hidden_dim)
@@ -123,10 +123,10 @@ class SparseGCNLayer(nn.Module):
         return x_new, e_new
 
 
-# ==================== 第二部分：边特征生成器（修复版）====================
+# ==================== 第二部分：边特征生成器 ====================
 
 class ManufacturingEdgeFeatures(nn.Module):
-    """针对加工能力特征的边特征生成器 - 完全修复版"""
+    """针对加工能力特征的边特征生成器。"""
     
     def __init__(self, node_feature_dim, m, n):
         super().__init__()
@@ -181,7 +181,7 @@ class ManufacturingEdgeFeatures(nn.Module):
         overlap = overlap / (self.m * self.n + 1e-8)
         # Shape: [B, N, N, 1]
         
-        # 4. 总能力差异（修复：不使用keepdim）
+        # 4. Total capability difference without keepdim.
         total_cap_i = capabilities.sum(dim=(-2, -1))  # [B, N]
         total_cap_j = capabilities.sum(dim=(-2, -1))  # [B, N]
         
@@ -192,7 +192,7 @@ class ManufacturingEdgeFeatures(nn.Module):
         total_cap_similarity = torch.exp(-total_cap_diff).unsqueeze(-1)  # [B, N, N, 1]
         # Shape: [B, N, N, 1]
         
-        # 验证所有张量的维度（调试用）
+        # Validate tensor dimensions.
         assert capability_similarity.shape == (batch_size, n_nodes, n_nodes, 1)
         assert complementarity.shape == (batch_size, n_nodes, n_nodes, 1)
         assert overlap.shape == (batch_size, n_nodes, n_nodes, 1)
@@ -286,10 +286,10 @@ class LabelConsistentAugmentation:
         return augmented
 
 
-# ==================== 第四部分：有监督图对比学习（修复版）====================
+# ==================== 第四部分：有监督图对比学习 ====================
 
 class SupervisedGraphContrastiveLearning(nn.Module):
-    """有监督图对比学习 - 修复版"""
+    """有监督图对比学习。"""
     
     def __init__(self, hidden_dim, temperature=0.07):
         super().__init__()
@@ -335,7 +335,7 @@ class SupervisedGraphContrastiveLearning(nn.Module):
             for i in range(n_nodes):
                 positive_mask = labels_b[i] > 0
                 
-                # 修复：检查是否有正样本
+                # Skip anchors without positive samples.
                 if positive_mask.sum() > 0:
                     logits = sim_matrix[i]
                     exp_logits = torch.exp(logits)
@@ -343,12 +343,12 @@ class SupervisedGraphContrastiveLearning(nn.Module):
                     positive_sum = (exp_logits * positive_mask.float()).sum()
                     all_sum = exp_logits.sum()
                     
-                    # 修复：添加数值稳定性检查
+                    # Guard against non-finite loss values.
                     if all_sum > 1e-8:
                         loss += -torch.log(positive_sum / all_sum + 1e-8)
                         num_valid_samples += 1
         
-        # 修复：避免除以0
+        # Avoid division by zero.
         if num_valid_samples > 0:
             loss = loss / num_valid_samples
         else:
@@ -466,7 +466,7 @@ class ContrastiveClusteringModel(nn.Module):
         )
         mask = ~torch.eye(n_nodes, dtype=torch.bool, device=node_features.device)
         
-        # 修复：正确地填充edge_scores
+        # Populate edge_scores from the flattened predictions.
         # edge_scores_flat的形状是[B, N*(N-1)]
         # 需要正确地映射回[B, N, N]
         edge_scores = edge_scores.reshape(batch_size, -1)  # [B, N*N]

@@ -3,11 +3,7 @@ from flask import Flask, request, jsonify
 app = Flask(__name__)
 
 def deepnet(config_seru_data, problem_data):
-    """
-    你自己的深度学习逻辑：
-    - 可以直接返回一个 dict，方便 jsonify
-    """
-    # ... 在这里做你的 deepnet 推理 / 训练 ...
+    """Run the deep-learning task and return a JSON-serializable dictionary."""
     result = {
         "status": "ok",
         "some_metric": 0.95,

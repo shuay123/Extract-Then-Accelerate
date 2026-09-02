@@ -39,11 +39,11 @@ class TransformerExtractor(BaseFeaturesExtractor):
         self.transformer = TransformerEncoder(
             encoder_layer=TransformerEncoderLayer(
                 d_model=96,  # 输入维度（类型32+时间64）
-                nhead=4,  # 4头注意力（原8头）
-                dim_feedforward=256,  # FFN隐藏层维度（原512）
+                nhead=4,  # Four attention heads.
+                dim_feedforward=256,  # FFN hidden dimension.
                 batch_first=True  # 输入形状为(batch, seq, feature)
             ),
-            num_layers=2  # 2层Transformer（原4层）
+            num_layers=2  # Two Transformer layers.
         )
 
         # 4. 最终投影层（将Transformer输出映射到目标维度）
@@ -69,7 +69,7 @@ class TransformerExtractor(BaseFeaturesExtractor):
         fused = th.cat([type_emb, time_emb], dim=-1)  # (batch_size, num_entities, 96)
 
         # Transformer：使用 src_key_padding_mask 参数屏蔽被mask的实体
-        # 注意：src_key_padding_mask 的 shape 为 (batch_size, num_entities) 且为 bool，其中 True 表示需要忽略的元素
+        # src_key_padding_mask has shape (batch_size, num_entities); True entries are ignored.
         encoded = self.transformer(fused, src_key_padding_mask=mask)  # (batch_size, num_entities, 96)
 
         # 使用 mask 进行全局平均池化，只对未屏蔽的实体取平均

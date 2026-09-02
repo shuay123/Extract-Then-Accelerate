@@ -6,11 +6,11 @@ import os
 
 # 设置matplotlib参数
 plt.rcParams['font.family'] = 'Times New Roman'
-plt.rcParams['font.size'] = 16  # 从12改为16
-plt.rcParams['axes.labelsize'] = 18  # 从14改为18
-plt.rcParams['legend.fontsize'] = 15  # 从11改为15
-plt.rcParams['xtick.labelsize'] = 16  # 从12改为16
-plt.rcParams['ytick.labelsize'] = 16  # 从12改为16
+plt.rcParams['font.size'] = 16
+plt.rcParams['axes.labelsize'] = 18
+plt.rcParams['legend.fontsize'] = 15
+plt.rcParams['xtick.labelsize'] = 16
+plt.rcParams['ytick.labelsize'] = 16
 
 def plot_skill_similarity_vs_tardiness():
     """
@@ -119,7 +119,7 @@ def plot_skill_similarity_vs_tardiness():
     return r_squared, slope, intercept
 
 
-# 如果需要更灵活的布局控制，可以使用这个版本
+# Alternative layout with separate legend and equation placement.
 def plot_skill_similarity_vs_tardiness_alt():
     """
     备选版本：只显示图例，不显示方程文本框
@@ -190,11 +190,11 @@ def plot_skill_similarity_vs_tardiness_alt():
 
 if __name__ == "__main__":
     try:
-        # 主版本：图例在左上，方程在右下
+        # Layout with the legend at upper left and the equation at lower right.
         print("Creating main version...")
         plot_skill_similarity_vs_tardiness()
 
-        # 备选版本：所有信息都在图例中
+        # Layout with all information in the legend.
         print("\nCreating alternative version...")
         plot_skill_similarity_vs_tardiness_alt()
 

@@ -71,7 +71,7 @@ class FormationHeuristic:
 
         # 重新计算适应度
         CalculateFitness.calculate_fitness(new_solution, config_seru)
-        # 这里分配print original_solution和new_solution的fitness
+        # Assign fitness values to the original and candidate solutions.
         print(f"Original Solution Fitness: {original_solution.fitness}")
         print(f"New Solution Fitness: {new_solution.fitness}")
         return new_solution

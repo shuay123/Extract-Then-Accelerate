@@ -14,7 +14,7 @@ for i in range(1, 31):
 
 df_all = pd.concat(all_dfs)
 
-# 重命名列（因为有重复列名，建议读取后手动指定）
+# Assign explicit names to duplicate columns.
 df_all.columns = ['Alpha','flag_e','MIP_Cmax','MIP_NSF','MIP_Time',
                   'GNN_Cmax','gap_cmax','GNN_NSF','gap_nsf',
                   'GNN_Time','gap_time','TimeMIP','TimeGNN','speedup','instance']

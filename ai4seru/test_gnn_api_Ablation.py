@@ -1,11 +1,7 @@
 from metaheuristics.ga_formation_edd.ga_formation_v3 import GA
 from metaheuristics.ga_formation_edd.ga_formation_v3_2 import GA2
-from metaheuristics.ccea.ccea_conflict_minimal_v4_hotstart_v2 import CCEA as CCEA4
-from metaheuristics.ccea.ccea_conflict_minimal_v4_hotstart_v3_fixed import CCEA as CCEA3
-from metaheuristics.ccea.ccea_conflict_minimal_v4_hotstart_v3_mixed import CCEA as CCEA2
-from metaheuristics.ccea.ccea_conflict_minimal_v4_hotstart_v3_mixed_fixed import CCEA as CCEA5
-from metaheuristics.ccea.ccea_conflict_minimal_v4_hotstart_v3_mixed_fixed_2_ablation import CCEA as CCEA6
-from metaheuristics.ccea.ccea import CCEA
+from metaheuristics.ccea.ccea_baseline import CCEA as BaselineCCEA
+from metaheuristics.ccea.ccea_eta_ablation import CCEA as EtaAblationCCEA
 from utils.config_loader import ConfigLoader
 from utils.call_gnn_api_seru import get_gnn_result
 from utils.excel_utils import ExcelDataLoader
@@ -522,13 +518,13 @@ def data_generate(num_repeats, W, J, seed=42, paper_fig_stop=50, num_instances=5
             seed_everything(run_seed)
             PSF_50, PSS_50 = init_PS(config_seru.num_of_workers, config_seru.num_of_batches, 50)
 
-            ccea1 = CCEA4(
+            ccea1 = BaselineCCEA(
                 worker_map=worker_map,
                 batch_map=batch_map,
                 PSF=copy.deepcopy(PSF_50),
                 PSS=copy.deepcopy(PSS_50)
             )
-            ccea5 = CCEA6(
+            ccea5 = EtaAblationCCEA(
                 worker_map=worker_map,
                 batch_map=batch_map,
                 edge_scores_worker=edge_scores_worker,
@@ -536,14 +532,14 @@ def data_generate(num_repeats, W, J, seed=42, paper_fig_stop=50, num_instances=5
                 PSF=copy.deepcopy(PSF_50),
                 PSS=copy.deepcopy(PSS_50)
             )
-            ccea2 = CCEA6(
+            ccea2 = EtaAblationCCEA(
                 worker_map=worker_map,
                 batch_map=batch_map,
                 edge_scores_worker=edge_scores_worker,
                 PSF=copy.deepcopy(PSF_50),
                 PSS=copy.deepcopy(PSS_50)
             )
-            ccea3 = CCEA6(
+            ccea3 = EtaAblationCCEA(
                 worker_map=worker_map,
                 batch_map=batch_map,
                 edge_scores_batch=edge_scores_batch,

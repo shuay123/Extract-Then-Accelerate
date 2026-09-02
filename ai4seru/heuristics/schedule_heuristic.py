@@ -24,7 +24,7 @@ class ScheduleHeuristic:
 
     @staticmethod
     def _reschedule_seru_batches(seru: Seru, excel_loader: ExcelDataLoader):
-        """对单个Seru单元进行批次重排序（修正版）"""
+        """对单个 Seru 单元进行批次重排序。"""
         # 使用有序字典保持产品类型顺序
         from collections import defaultdict
         type_dict = defaultdict(list)

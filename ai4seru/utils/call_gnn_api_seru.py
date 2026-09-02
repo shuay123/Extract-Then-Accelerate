@@ -57,7 +57,6 @@ def get_gnn_result(payload):
               len(edge_scores), "x", (len(edge_scores[0]) if len(edge_scores) else 0))
         print("edge_scores[0][:10]:", edge_scores[0][:10])
 
-    # # 如需保存完整结果：
     # with open("api_result.json", "w", encoding="utf-8") as f:
     #     json.dump(data, f, ensure_ascii=False, indent=2)
     # print("Saved to api_result.json")

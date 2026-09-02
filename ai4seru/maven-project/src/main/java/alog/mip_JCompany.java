@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 修改版 mip4：
+ * MIP model:
  * - 使用LBBD8中的加工时间计算方式，基于T矩阵和批次大小
  * - 枚举所有固定赛汝数 K 的赛汝构造；
  * - 对每个构造，根据T矩阵计算该构造下的 p[m][j]（加工时间）；
@@ -340,7 +340,7 @@ public class mip_JCompany {
         cplex.end();
         return res;
     }
-    // ⬇️ ⬇️ ⬇️ 修改点 2: 修改函数签名，接收 ubCmax 和 relativeGap ⬇️ ⬇️ ⬇️
+    // Solve with an explicit upper bound and relative MIP gap.
     // public static Result solveOnce_No_S(double[][] p) throws IloException {
     public static Result solveOnce_No_S_gap(double[][] p, double ubCmax, double relativeGap,double StopTime) throws IloException {
         int M0 = p.length;           // 含 dummy 的批次数（= M+1）
@@ -350,20 +350,19 @@ public class mip_JCompany {
         IloCplex cplex = new IloCplex();
         cplex.setOut(null); // 静默输出
 
-        // ================== 🛡 求解“硬限制”设置 🛡 ==================
-        cplex.setParam(IloCplex.Param.Threads, 4);  // 并行核心数（你原来就有）
+        // Solver limits
+        cplex.setParam(IloCplex.Param.Threads, 4);  // 并行核心数
 
         cplex.setParam(IloCplex.Param.TimeLimit, StopTime);              // 原有
         cplex.setParam(IloCplex.Param.MIP.Tolerances.MIPGap, relativeGap); // 原有
 
-        // 【新增】节点数上限，防止搜索树爆炸
+        // Optional node limit.
 //        cplex.setParam(IloCplex.Param.MIP.Limits.Nodes, 200000);
 
-        // 【新增】确定性并行模式（结果更可复现）
+        // Optional deterministic parallel mode.
 //        cplex.setParam(IloCplex.Param.Parallel, IloCplex.ParallelMode.Deterministic);
 
-        // ================== 🧮 预计算 Big-M 所需的 max p ==================
-        // 【新增】计算 max p_{mj} 用于 Big-M
+        // Precompute max p_{mj} for Big-M.
         double maxP = 0.0;
         for (int m = 1; m <= M_real; m++) {
             for (int j = 1; j <= J; j++) {
@@ -372,7 +371,7 @@ public class mip_JCompany {
                 }
             }
         }
-        // 【修改】Big-M：由原来的 1e7 改为 ubCmax + maxP
+        // Derive Big-M from the incumbent bound and maximum processing time.
         double B = ubCmax + maxP;
 
 
@@ -559,8 +558,6 @@ public class mip_JCompany {
     }
     // private static Result solveOnce_No_S_Simplified(double[][] p) throws IloException {
     public static Result solveOnce_No_S_Simplified_Gap(double[][] p, double ubCmax, double relativeGap) throws IloException {
-        // ⬆️ ⬆️ ⬆️ 修改点 2 结束 ⬆️ ⬆️ ⬆️
-
         int M0 = p.length;
         int J = p[0].length - 1;
         int M_real = M0 - 1;
@@ -568,7 +565,7 @@ public class mip_JCompany {
         IloCplex cplex = new IloCplex();
         cplex.setOut(null); // 静默输出
 
-        // ⬇️ ⬇️ ⬇️ 修改点 3: 添加MIP Gap 和 上界 (UB) ⬇️ ⬇️ ⬇️
+        // Apply the relative MIP gap and incumbent upper bound.
 
         // 1. 设置相对MIP Gap
         cplex.setParam(IloCplex.Param.MIP.Tolerances.MIPGap, relativeGap);
@@ -586,8 +583,6 @@ public class mip_JCompany {
 
         // 2. 添加上界 (UB) 约束
         cplex.addLe(Cmax, ubCmax, "c_UpperBound");
-
-        // ⬆️ ⬆️ ⬆️ 修改点 3 结束 ⬆️ ⬆️ ⬆️
 
 
         // 2. 目标

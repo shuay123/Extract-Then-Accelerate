@@ -92,7 +92,7 @@ def plot_a_b_matrices(a, b, save_dir=".", prefix="gnn", dpi=200, save_pdf=False,
 
 
 # ---------------------------
-# 用法示例（把这里的 a,b 换成你的矩阵）
+# Usage example
 # ---------------------------
 if __name__ == "__main__":
     # 示例数据：n=5, m=20

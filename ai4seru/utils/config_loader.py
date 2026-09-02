@@ -7,7 +7,7 @@ from typing import Any, Dict
 class ConfigLoader:
     # 类级别的实例缓存
     _instances: Dict[str, 'ConfigLoader'] = {}
-    # 预加载配置列表（按需添加）
+    # Preloaded configuration list
     _preload_configs = [
         "config/config_seru.yaml",
         "config/config_ga.yaml",
@@ -15,7 +15,7 @@ class ConfigLoader:
         "config/config_drl.yaml"
         # todo 已经训练过的模型的config直接再次使用，如何设计
         # "config/config_drl_trained_model"
-        # 后续新增配置在此添加
+        # Register configuration entries here.
     ]
     print("使用的配置文件如下")
     print(_preload_configs)
@@ -89,7 +89,6 @@ class ConfigLoader:
                 'T': self.config_data.get('T', 0)
             }
             self.config_data['due_dates_path'] = self.config_data['due_dates_path'].format(**params)
-        # 其他路径处理可以在此扩展
         if 'batch_types_path' in self.config_data:
             params = {
                 'num_of_batch_types': self.config_data.get('num_of_batch_types', 0)

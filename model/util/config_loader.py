@@ -72,7 +72,6 @@ if __name__ == "__main__":
             print(f"批大小: {batch_size}")
             print(f"学习率: {lr}")
             print(f"其他参数: {kwargs}")
-            # 这里会是你的模型训练逻辑
             print("--- 训练完成 ---")
 
         train_model(**params)
